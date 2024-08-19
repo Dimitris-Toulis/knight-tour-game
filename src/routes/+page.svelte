@@ -3,6 +3,9 @@
 	import Tile from "$lib/components/tile.svelte";
 	import { tileC, tileI } from "$lib/helpers";
 	import type { Point } from "$lib/helpers";
+	import Modal from "$lib/components/Modal.svelte";
+	import * as confetti from "canvas-confetti";
+	import { onMount } from "svelte";
 
 	const dimensions = { x: 10, y: 10 };
 	let grid = Array(dimensions.x * dimensions.y).fill(0);
@@ -23,6 +26,30 @@
 			counter++;
 			lastTile = index;
 		}
+		if (counter == dimensions.x * dimensions.y + 1) win();
+	}
+
+	let showModal = false;
+	let canvasConfetti: confetti.CreateTypes | undefined = undefined;
+	onMount(async () => {
+		const canvas = document.getElementById("confetti-canvas") as HTMLCanvasElement;
+		canvas.width = window.innerWidth;
+		canvas.height = window.innerHeight;
+		canvasConfetti = await confetti.create(canvas, {
+			disableForReducedMotion: true,
+			resize: false,
+			useWorker: true
+		});
+	});
+	function win() {
+		showModal = true;
+
+		if (canvasConfetti)
+			canvasConfetti({
+				particleCount: 100,
+				spread: 70,
+				origin: { y: 0.7 }
+			});
 	}
 
 	function restart() {
@@ -61,3 +88,7 @@
 		</div>
 	</main>
 </div>
+
+<Modal bind:showModal>
+	<h2 class="text-4xl">You won!</h2>
+</Modal>
