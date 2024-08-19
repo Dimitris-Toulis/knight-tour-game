@@ -11,12 +11,9 @@
 	let lastTile = -1;
 	function canGo(from: Point, to: Point) {
 		if (lastTile == -1) return true;
-		const distance = Math.abs(from.x - to.x) + Math.abs(from.y - to.y);
-		return (
-			Math.abs(from.x - to.x) + Math.abs(from.y - to.y) == 3 &&
-			Math.abs(from.x - to.x) > 0 &&
-			Math.abs(from.y - to.y) > 0
-		);
+		const distanceX = Math.abs(from.x - to.x);
+		const distanceY = Math.abs(from.y - to.y);
+		return distanceX + distanceY == 3 && distanceX > 0 && distanceY > 0;
 	}
 	function gridClick(index: number) {
 		if (grid[index] == 0 && canGo(tileC(lastTile, dimensions), tileC(index, dimensions))) {
