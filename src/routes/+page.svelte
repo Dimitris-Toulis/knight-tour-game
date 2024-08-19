@@ -9,14 +9,16 @@
 
 	let counter = 1;
 	let lastTile = -1;
-	function canGo(from: Point, to: Point) {
-		if (lastTile == -1) return true;
+	function canMove(from: Point, to: Point) {
 		const distanceX = Math.abs(from.x - to.x);
 		const distanceY = Math.abs(from.y - to.y);
 		return distanceX + distanceY == 3 && distanceX > 0 && distanceY > 0;
 	}
+	function canGo(to: number) {
+		return canMove(tileC(lastTile, dimensions), tileC(to, dimensions));
+	}
 	function gridClick(index: number) {
-		if (grid[index] == 0 && canGo(tileC(lastTile, dimensions), tileC(index, dimensions))) {
+		if (grid[index] == 0 && (canGo(index) || lastTile == -1)) {
 			grid[index] = counter;
 			counter++;
 			lastTile = index;
@@ -31,7 +33,12 @@
 			<div class="flex place-items-center justify-center">
 				<div class="grid grid-cols-10 border-4 border-black max-w-[min(80dvh,80dvw)] flex-1">
 					{#each grid as n, index (index)}
-						<Tile num={n} on:click={() => gridClick(index)}></Tile>
+						<Tile
+							num={n}
+							on:click={() => gridClick(index)}
+							selected={lastTile == index}
+							candidate={lastTile != -1 && grid[index] == 0 && canGo(index)}
+						></Tile>
 					{/each}
 				</div>
 			</div>
