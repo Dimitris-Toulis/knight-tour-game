@@ -30,6 +30,12 @@
 		counter = 1;
 		lastTile = -1;
 	}
+
+	function undo() {
+		grid[lastTile] = 0;
+		lastTile = counter - 2 == 0 ? -1 : grid.indexOf(counter - 2);
+		counter--;
+	}
 </script>
 
 <div class="px-3 py-5 min-h-[100dvh] flex flex-col gap-7">
@@ -50,7 +56,7 @@
 			</div>
 			<div class="flex flex-col gap-3 place-items-center justify-center pbs-3 grid-">
 				<div><Button xl on:click={restart}>New Game</Button></div>
-				<div><Button xl>Undo</Button></div>
+				<div><Button xl on:click={undo}>Undo</Button></div>
 			</div>
 		</div>
 	</main>
