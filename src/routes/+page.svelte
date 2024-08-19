@@ -91,4 +91,19 @@
 
 <Modal bind:showModal>
 	<h2 class="text-4xl">You won!</h2>
+	<canvas id="confetti-canvas"></canvas>
 </Modal>
+
+<style>
+	#confetti-canvas {
+		position: fixed;
+		top: 0;
+		left: 0;
+		bottom: 0;
+		right: 0;
+		pointer-events: none;
+		z-index: 100;
+		width: 100%;
+		height: 100%;
+	}
+</style>
