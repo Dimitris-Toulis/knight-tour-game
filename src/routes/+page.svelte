@@ -29,6 +29,10 @@
 			lastTile = index;
 		}
 		if (counter == dimensions.x * dimensions.y + 1) win();
+		if (counter - 1 > highscore) {
+			highscore = counter - 1;
+			localStorage.setItem("highscore", highscore.toString());
+		}
 	}
 
 	let showModalWin = false;
@@ -43,6 +47,9 @@
 			useWorker: true
 		});
 	});
+
+	let highscore: number = 0;
+	onMount(() => (highscore = parseInt(localStorage.getItem("highscore") ?? "0")));
 	function win() {
 		showModalWin = true;
 
@@ -95,6 +102,9 @@
 				</div>
 			</div>
 			<div class="flex flex-col gap-3 place-items-center justify-center pbs-3 grid-">
+				{#if highscore != 0}
+					<div><span>Highscore: {highscore}</span></div>
+				{/if}
 				<div><Button xl on:click={changeSettings}>New Game (Change Settings)</Button></div>
 				<div><Button xl on:click={restart}>New Game (Same Settings)</Button></div>
 				<div><Button xl on:click={undo}>Undo</Button></div>
