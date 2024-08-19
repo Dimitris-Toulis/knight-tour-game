@@ -1,5 +1,8 @@
 <script lang="ts">
+	import Button from "$lib/components/button.svelte";
 	export let showModal: boolean;
+	export let closeBtn: string = "";
+	export let hasHeader: boolean = false;
 
 	let dialog: HTMLDialogElement;
 
@@ -14,7 +17,16 @@
 >
 	<!-- svelte-ignore a11y-no-static-element-interactions -->
 	<div on:click|stopPropagation class="p-4">
+		{#if hasHeader}
+			<slot name="header" />
+			<hr />
+		{/if}
 		<slot />
+		{#if closeBtn != ""}
+			<div class="flex justify-center my-3">
+				<Button on:click={() => dialog.close()}>{closeBtn}</Button>
+			</div>
+		{/if}
 	</div>
 </dialog>
 
