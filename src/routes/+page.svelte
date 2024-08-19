@@ -5,7 +5,7 @@
 	import type { Point } from "$lib/helpers";
 
 	const dimensions = { x: 10, y: 10 };
-	const grid = Array(dimensions.x * dimensions.y).fill(0);
+	let grid = Array(dimensions.x * dimensions.y).fill(0);
 
 	let counter = 1;
 	let lastTile = -1;
@@ -23,6 +23,12 @@
 			counter++;
 			lastTile = index;
 		}
+	}
+
+	function restart() {
+		grid = Array(dimensions.x * dimensions.y).fill(0);
+		counter = 1;
+		lastTile = -1;
 	}
 </script>
 
@@ -43,7 +49,7 @@
 				</div>
 			</div>
 			<div class="flex flex-col gap-3 place-items-center justify-center pbs-3 grid-">
-				<div><Button xl>New Game</Button></div>
+				<div><Button xl on:click={restart}>New Game</Button></div>
 				<div><Button xl>Undo</Button></div>
 			</div>
 		</div>
