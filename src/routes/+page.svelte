@@ -22,6 +22,7 @@
 	function canGo(to: number) {
 		return canMove(tileC(lastTile, dimensions), tileC(to, dimensions));
 	}
+	let showModalTrapped = false;
 	function gridClick(index: number) {
 		if (grid[index] == 0 && (canGo(index) || lastTile == -1)) {
 			grid[index] = counter;
@@ -33,6 +34,7 @@
 			highscore = counter - 1;
 			localStorage.setItem("highscore", highscore.toString());
 		}
+		if (grid.every((n, i) => !(canGo(i) && n == 0))) showModalTrapped = true;
 	}
 
 	let showModalWin = false;
@@ -116,6 +118,9 @@
 <Modal bind:showModal={showModalWin}>
 	<h2 class="text-4xl">You won!</h2>
 	<canvas id="confetti-canvas"></canvas>
+</Modal>
+<Modal bind:showModal={showModalTrapped}>
+	<h2 class="text-4xl">You don't have any moves available!</h2>
 </Modal>
 <Modal bind:showModal={showModalSettings} closeBtn="New Game" hasHeader>
 	<h2 class="text-2xl text-center" slot="header">Settings</h2>
