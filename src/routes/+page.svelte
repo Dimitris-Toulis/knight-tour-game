@@ -1,6 +1,7 @@
 <script lang="ts">
 	import Button from "$lib/components/button.svelte";
 	import SettingsInput from "$lib/components/SettingsInput.svelte";
+	import SettingsMoves from "$lib/components/SettingsMoves.svelte";
 	import Tile from "$lib/components/tile.svelte";
 	import { tileC, tileI } from "$lib/helpers";
 	import type { Point } from "$lib/helpers";
@@ -9,7 +10,7 @@
 	import { onMount } from "svelte";
 
 	const dimensions = { x: 8, y: 8 };
-	const moves = [
+	let moves = [
 		{ x: 1, y: 2 },
 		{ x: 1, y: -2 },
 		{ x: -1, y: 2 },
@@ -145,8 +146,11 @@
 <Modal bind:showModal={showModalSettings} closeBtn="New Game" hasHeader>
 	<h2 class="text-2xl text-center" slot="header">Settings</h2>
 	<div class="my-4 mx-2 flex flex-col gap-3">
-		<SettingsInput name="Columns" bind:value={dimensions.x}></SettingsInput>
-		<SettingsInput name="Rows" bind:value={dimensions.y}></SettingsInput>
+		<SettingsInput name="Columns" id="dimensionX" max={50} min={4} bind:value={dimensions.x}
+		></SettingsInput>
+		<SettingsInput name="Rows" id="dimensionY" max={50} min={4} bind:value={dimensions.y}
+		></SettingsInput>
+		<SettingsMoves bind:moves {dimensions}></SettingsMoves>
 	</div>
 </Modal>
 
