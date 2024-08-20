@@ -12,10 +12,20 @@
 <Modal bind:showModal closeBtn="New Game" hasHeader>
 	<h2 class="text-2xl text-center" slot="header">Settings</h2>
 	<div class="my-4 mx-2 flex flex-col gap-3">
-		<SettingsInput name="Columns" id="dimensionX" max={50} min={4} bind:value={dimensions.x}
-		></SettingsInput>
-		<SettingsInput name="Rows" id="dimensionY" max={50} min={4} bind:value={dimensions.y}
-		></SettingsInput>
+		<div>
+			<h3 class="text-xl text-center">Dimensions</h3>
+			<hr />
+			<p class="my-3">
+				Not all dimensions + moveset combinations are solvable
+				<span class="text-sm">Knight's Tour is not solvable on 4x4</span>
+			</p>
+			<div class="flex flex-col gap-3">
+				<SettingsInput name="Columns" id="dimensionX" max={50} min={4} bind:value={dimensions.x}
+				></SettingsInput>
+				<SettingsInput name="Rows" id="dimensionY" max={50} min={4} bind:value={dimensions.y}
+				></SettingsInput>
+			</div>
+		</div>
 		<SettingsMoves bind:moves {dimensions}></SettingsMoves>
 	</div>
 </Modal>
