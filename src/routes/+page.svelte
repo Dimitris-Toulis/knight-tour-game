@@ -3,9 +3,11 @@
 	import Tile from "$lib/components/tile.svelte";
 	import Modal from "$lib/components/Modal.svelte";
 	import Settings from "$lib/components/Settings.svelte";
+	import Highscores from "$lib/components/Highscores.svelte";
 
 	import { tileC, tileI } from "$lib/helpers";
 	import type { Point } from "$lib/helpers";
+	import { newScore } from "$lib/highscores";
 	import * as confetti from "canvas-confetti";
 	import { onMount } from "svelte";
 
@@ -50,11 +52,13 @@
 			grid[index] = counter;
 			counter++;
 			lastTile = index;
-		}
-		if (counter == dimensions.x * dimensions.y + 1) win();
-		if (counter - 1 > highscore) {
-			highscore = counter - 1;
-			localStorage.setItem("highscore", highscore.toString());
+			if (counter == dimensions.x * dimensions.y + 1) win();
+			newScore(
+				// hack to not change reactively in store
+				JSON.parse(JSON.stringify(dimensions)),
+				JSON.parse(JSON.stringify(moves)),
+				JSON.parse(JSON.stringify(counter - 1))
+			);
 		}
 	}
 
@@ -101,6 +105,8 @@
 		restart();
 		showModalSettings = true;
 	}
+
+	let showHighscoresModal = false;
 </script>
 
 <div class="px-3 py-5 min-h-[100dvh] flex flex-col gap-7">
@@ -125,9 +131,7 @@
 				</div>
 			</div>
 			<div class="flex flex-col gap-3 place-items-center justify-center pbs-3 grid-">
-				{#if highscore != 0}
-					<div><span>Highscore: {highscore}</span></div>
-				{/if}
+				<div><Button xl on:click={() => (showHighscoresModal = true)}>Highscores</Button></div>
 				<div><Button xl on:click={changeSettings}>New Game (Change Settings)</Button></div>
 				<div><Button xl on:click={restart}>New Game (Same Settings)</Button></div>
 				<div><Button xl on:click={undo}>Undo</Button></div>
@@ -144,6 +148,7 @@
 	<h2 class="text-4xl">You don't have any moves available!</h2>
 </Modal>
 <Settings bind:dimensions bind:moves bind:showModal={showModalSettings}></Settings>
+<Highscores bind:showModal={showHighscoresModal}></Highscores>
 
 <style>
 	#confetti-canvas {

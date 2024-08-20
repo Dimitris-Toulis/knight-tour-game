@@ -7,3 +7,11 @@ export function tileC(index: number, d: { x: number; y: number }): Point {
 	const y = (index - x) / d.x;
 	return { x, y };
 }
+export function deepEqual(x: any, y: any): boolean {
+	const k = Object.keys,
+		tx = typeof x,
+		ty = typeof y;
+	return x && y && tx === "object" && tx === ty
+		? k(x).length === k(y).length && k(x).every((key) => deepEqual(x[key], y[key]))
+		: x === y;
+}
