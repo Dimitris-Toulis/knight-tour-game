@@ -9,16 +9,37 @@
 	import { onMount } from "svelte";
 
 	const dimensions = { x: 8, y: 8 };
+	const moves = [
+		{ x: 1, y: 2 },
+		{ x: 1, y: -2 },
+		{ x: -1, y: 2 },
+		{ x: -1, y: -2 },
+		{ x: 2, y: 1 },
+		{ x: 2, y: -1 },
+		{ x: -2, y: 1 },
+		{ x: -2, y: -1 }
+	];
 	let grid: number[];
 	$: grid = Array(dimensions.x * dimensions.y).fill(0);
 
 	let counter = 1;
 	let lastTile = -1;
 	function canMove(from: Point, to: Point) {
-		const distanceX = Math.abs(from.x - to.x);
-		const distanceY = Math.abs(from.y - to.y);
-		return distanceX + distanceY == 3 && distanceX > 0 && distanceY > 0;
+		const dist = { x: to.x - from.x, y: to.y - from.y };
+		return moves.some((m) => m.x == dist.x && m.y == dist.y);
 	}
+	let availableTiles = [];
+	$: availableTiles =
+		lastTile == -1
+			? []
+			: moves
+					.map((m) => ({
+						x: tileC(lastTile, dimensions).x + m.x,
+						y: tileC(lastTile, dimensions).y + m.y
+					}))
+					.filter((tile) => grid[tileI(tile, dimensions)] == 0);
+	$: if (availableTiles.length == 0 && lastTile != -1 && counter != dimensions.x * dimensions.y + 1)
+		showModalTrapped = true;
 	function canGo(to: number) {
 		return canMove(tileC(lastTile, dimensions), tileC(to, dimensions));
 	}
@@ -34,7 +55,6 @@
 			highscore = counter - 1;
 			localStorage.setItem("highscore", highscore.toString());
 		}
-		if (grid.every((n, i) => !(canGo(i) && n == 0))) showModalTrapped = true;
 	}
 
 	let showModalWin = false;
