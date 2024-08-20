@@ -1,15 +1,15 @@
 <script lang="ts">
 	import Button from "$lib/components/button.svelte";
-	import SettingsInput from "$lib/components/SettingsInput.svelte";
-	import SettingsMoves from "$lib/components/SettingsMoves.svelte";
 	import Tile from "$lib/components/tile.svelte";
+	import Modal from "$lib/components/Modal.svelte";
+	import Settings from "$lib/components/Settings.svelte";
+
 	import { tileC, tileI } from "$lib/helpers";
 	import type { Point } from "$lib/helpers";
-	import Modal from "$lib/components/Modal.svelte";
 	import * as confetti from "canvas-confetti";
 	import { onMount } from "svelte";
 
-	const dimensions = { x: 8, y: 8 };
+	let dimensions = { x: 8, y: 8 };
 	let moves = [
 		{ x: 1, y: 2 },
 		{ x: 1, y: -2 },
@@ -143,16 +143,7 @@
 <Modal bind:showModal={showModalTrapped}>
 	<h2 class="text-4xl">You don't have any moves available!</h2>
 </Modal>
-<Modal bind:showModal={showModalSettings} closeBtn="New Game" hasHeader>
-	<h2 class="text-2xl text-center" slot="header">Settings</h2>
-	<div class="my-4 mx-2 flex flex-col gap-3">
-		<SettingsInput name="Columns" id="dimensionX" max={50} min={4} bind:value={dimensions.x}
-		></SettingsInput>
-		<SettingsInput name="Rows" id="dimensionY" max={50} min={4} bind:value={dimensions.y}
-		></SettingsInput>
-		<SettingsMoves bind:moves {dimensions}></SettingsMoves>
-	</div>
-</Modal>
+<Settings bind:dimensions bind:moves bind:showModal={showModalSettings}></Settings>
 
 <style>
 	#confetti-canvas {
