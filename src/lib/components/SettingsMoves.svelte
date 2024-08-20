@@ -4,35 +4,6 @@
 	import SettingsInput from "./SettingsInput.svelte";
 	export let moves: Point[];
 	export let dimensions: Point;
-
-	function setMoves(preset: string) {
-		switch (preset) {
-			case "default":
-				moves = [
-					{ x: 1, y: 2 },
-					{ x: 1, y: -2 },
-					{ x: -1, y: 2 },
-					{ x: -1, y: -2 },
-					{ x: 2, y: 1 },
-					{ x: 2, y: -1 },
-					{ x: -2, y: 1 },
-					{ x: -2, y: -1 }
-				];
-				break;
-			case "preset2":
-				moves = [
-					{ x: 3, y: 0 },
-					{ x: -3, y: 0 },
-					{ x: 0, y: 3 },
-					{ x: 0, y: -3 },
-					{ x: 2, y: 2 },
-					{ x: 2, y: -2 },
-					{ x: -2, y: -2 },
-					{ x: -2, y: 2 }
-				];
-				break;
-		}
-	}
 </script>
 
 <div>
@@ -43,8 +14,6 @@
 		<Button on:click={() => (moves = [...moves, { x: 0, y: 0 }])}
 			><div class="i-material-symbols-add"></div></Button
 		>
-		<Button on:click={() => setMoves("default")}>Default (Knight)</Button>
-		<Button on:click={() => setMoves("preset2")}>Preset 2</Button>
 	</div>
 	<ul class="flex flex-col gap-2">
 		{#each moves as move, index (index)}
