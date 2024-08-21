@@ -3,43 +3,16 @@
 	import SettingsMoves from "$lib/components/SettingsMoves.svelte";
 	import Button from "./button.svelte";
 	import Modal from "$lib/components/Modal.svelte";
+	import { presets } from "$lib/presets";
 	import type { Point } from "$lib/helpers";
 
 	export let showModal = false;
 	export let dimensions: Point;
 	export let moves: Point[];
 
-	function preset(n: number) {
-		switch (n) {
-			case 0:
-				dimensions.x = 8;
-				dimensions.y = 8;
-				moves = [
-					{ x: 1, y: 2 },
-					{ x: 1, y: -2 },
-					{ x: -1, y: 2 },
-					{ x: -1, y: -2 },
-					{ x: 2, y: 1 },
-					{ x: 2, y: -1 },
-					{ x: -2, y: 1 },
-					{ x: -2, y: -1 }
-				];
-				break;
-			case 1:
-				dimensions.x = 10;
-				dimensions.y = 10;
-				moves = [
-					{ x: 3, y: 0 },
-					{ x: -3, y: 0 },
-					{ x: 0, y: 3 },
-					{ x: 0, y: -3 },
-					{ x: 2, y: 2 },
-					{ x: 2, y: -2 },
-					{ x: -2, y: -2 },
-					{ x: -2, y: 2 }
-				];
-				break;
-		}
+	function preset(p: string) {
+		dimensions = structuredClone(presets[p as keyof typeof presets].dimensions);
+		moves = structuredClone(presets[p as keyof typeof presets].moves);
 	}
 </script>
 
@@ -50,8 +23,9 @@
 			<h3 class="text-xl text-center">Presets</h3>
 			<hr />
 			<div class="flex my-3 gap-2">
-				<Button on:click={() => preset(0)}>Default (Knight)</Button>
-				<Button on:click={() => preset(1)}>Preset Star</Button>
+				{#each Object.entries(presets) as [name, _], index (index)}
+					<Button on:click={() => preset(name)}>{name}{index == 0 ? " (Default)" : ""}</Button>
+				{/each}
 			</div>
 		</div>
 		<div>
