@@ -26,17 +26,17 @@
 		<div>
 			<h3 class="text-xl text-center">Bisected Tour (Horizontal)</h3>
 			<hr />
-			<p>Fill half of the board before entering the other half</p>
+			<p>Fill half of the board before entering the other half (for even rows)</p>
 		</div>
 		<div>
 			<h3 class="text-xl text-center">Bisected Tour (Vertical)</h3>
 			<hr />
-			<p>Fill half of the board before entering the other half</p>
+			<p>Fill half of the board before entering the other half (for even columns)</p>
 		</div>
 		<div>
 			<h3 class="text-xl text-center">Quadrisected Tour</h3>
 			<hr />
-			<p>Fill each quadrant of the board before entering the next one</p>
+			<p>Fill each quadrant of the board before entering the next one (for even dimensions)</p>
 		</div>
 	</div>
 </Modal>

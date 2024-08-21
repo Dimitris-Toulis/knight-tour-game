@@ -35,9 +35,36 @@ function checkClosed(grid: number[][], moves: Point[], dimensions: Point) {
 	return canMove(end, start, moves);
 }
 
+function checkBisectedH(grid: number[][], dimensions: Point) {
+	const middle = dimensions.y / 2;
+	let maxN = 0;
+	for (let x = 0; x < dimensions.x; x++) {
+		for (let y = 0; y < middle; y++) {
+			maxN = Math.max(grid[x][y], maxN);
+		}
+	}
+	return (maxN = middle * dimensions.x);
+}
+
+function checkBisectedV(grid: number[][], dimensions: Point) {
+	const middle = dimensions.x / 2;
+	let maxN = 0;
+	for (let x = 0; x < middle; x++) {
+		for (let y = 0; y < dimensions.y; y++) {
+			maxN = Math.max(grid[x][y], maxN);
+		}
+	}
+	return (maxN = middle * dimensions.y);
+}
+
 export function checkChallenges(grid: number[][], moves: Point[], dimensions: Point) {
 	const { semimagic, magic } =
 		dimensions.x == dimensions.y ? checkMagic(grid, dimensions) : { semimagic: null, magic: null };
 	const closed = checkClosed(grid, moves, dimensions);
-	return { semimagic, magic, closed };
+	const bisected: "h" | "v" | false = checkBisectedH(grid, dimensions)
+		? "h"
+		: checkBisectedV(grid, dimensions)
+			? "v"
+			: false;
+	return { semimagic, magic, closed, bisected };
 }
