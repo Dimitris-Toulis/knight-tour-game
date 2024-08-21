@@ -8,20 +8,12 @@
 	import { tileC, tileI } from "$lib/helpers";
 	import type { Point } from "$lib/helpers";
 	import { newScore } from "$lib/highscores";
+	import { presets } from "$lib/presets";
 	import * as confetti from "canvas-confetti";
 	import { onMount } from "svelte";
 
-	let dimensions = { x: 8, y: 8 };
-	let moves = [
-		{ x: 1, y: 2 },
-		{ x: 1, y: -2 },
-		{ x: -1, y: 2 },
-		{ x: -1, y: -2 },
-		{ x: 2, y: 1 },
-		{ x: 2, y: -1 },
-		{ x: -2, y: 1 },
-		{ x: -2, y: -1 }
-	];
+	let dimensions = structuredClone(presets.Knight.dimensions);
+	let moves = structuredClone(presets.Knight.moves);
 	let grid: number[];
 	$: grid = Array(dimensions.x * dimensions.y).fill(0);
 
