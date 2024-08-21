@@ -59,7 +59,11 @@
 		});
 	});
 
-	let challenges: ReturnType<typeof checkChallenges> = { magic: false, semimagic: false };
+	let challenges: ReturnType<typeof checkChallenges> = {
+		magic: false,
+		semimagic: false,
+		closed: false
+	};
 	function win() {
 		challenges = checkChallenges(
 			Array(dimensions.x)
@@ -140,11 +144,14 @@
 
 <Modal bind:showModal={showModalWin}>
 	<h2 class="text-4xl text-center">You won!</h2>
-	{#if challenges.semimagic == true}
+	{#if challenges.semimagic}
 		<p class="font-600">Congratulations! Your board is semimagic!</p>
 	{/if}
 	{#if !challenges.semimagic && challenges.magic}
 		<p class="font-600">Congratulations! Your board is magic!!</p>
+	{/if}
+	{#if challenges.closed}
+		<p class="font-600">Congratulations! Your tour is closed!</p>
 	{/if}
 	<canvas id="confetti-canvas"></canvas>
 </Modal>
