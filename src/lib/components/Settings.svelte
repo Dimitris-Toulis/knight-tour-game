@@ -14,6 +14,25 @@
 		dimensions = structuredClone(presets[p as keyof typeof presets].dimensions);
 		moves = structuredClone(presets[p as keyof typeof presets].moves);
 	}
+	function exportSettings() {
+		alert(JSON.stringify({ dimensions, moves }));
+	}
+	function importSettings() {
+		const settings = JSON.parse(prompt("Settings") ?? "{}");
+		if (typeof settings?.dimensions?.x == "number" && typeof settings?.dimensions?.y == "number") {
+			if (
+				Array.isArray(settings?.moves) &&
+				settings.moves.every((move: any) => typeof move.x == "number" && typeof move.y == "number")
+			) {
+				dimensions.x = settings.dimensions.x;
+				dimensions.y = settings.dimensions.y;
+				moves = [];
+				settings.moves.forEach((move: Point) => {
+					moves.push({ x: move.x, y: move.y });
+				});
+			}
+		}
+	}
 </script>
 
 <Modal bind:showModal closeBtn="New Game" hasHeader>
@@ -22,10 +41,12 @@
 		<div>
 			<h3 class="text-xl text-center">Presets</h3>
 			<hr />
-			<div class="flex my-3 gap-2">
+			<div class="flex my-3 gap-2 flex-wrap justify-center">
 				{#each Object.entries(presets) as [name, _], index (index)}
 					<Button on:click={() => preset(name)}>{name}{index == 0 ? " (Default)" : ""}</Button>
 				{/each}
+				<Button on:click={exportSettings}>Export settings</Button>
+				<Button on:click={importSettings}>Import settings</Button>
 			</div>
 		</div>
 		<div>
