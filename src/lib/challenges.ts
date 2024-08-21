@@ -1,3 +1,4 @@
+import { writable, type Writable } from "svelte/store";
 import { canMove, type Point } from "./helpers";
 
 function checkMagic(grid: number[][], dimensions: Point) {
@@ -43,7 +44,7 @@ function checkBisectedH(grid: number[][], dimensions: Point) {
 			maxN = Math.max(grid[x][y], maxN);
 		}
 	}
-	return (maxN = middle * dimensions.x);
+	return maxN == middle * dimensions.x;
 }
 
 function checkBisectedV(grid: number[][], dimensions: Point) {
@@ -55,7 +56,7 @@ function checkBisectedV(grid: number[][], dimensions: Point) {
 			maxN = Math.max(grid[x][y], maxN);
 		}
 	}
-	return (maxN = middle * dimensions.y);
+	return maxN == middle * dimensions.y;
 }
 
 function checkQuadrisected(grid: number[][], dimensions: Point) {
@@ -81,18 +82,55 @@ function checkQuadrisected(grid: number[][], dimensions: Point) {
 	return quadrisected;
 }
 
-export function checkChallenges(grid: number[][], moves: Point[], dimensions: Point) {
+export type challengesType = {
+	semimagic: boolean;
+	magic: boolean;
+	closed: boolean;
+	bisectedH: boolean;
+	bisectedV: boolean;
+	quadrisected: boolean;
+};
+const storedChallenges: challengesType = JSON.parse(
+	localStorage.getItem("challenges") ?? "null"
+) ?? {
+	magic: false,
+	semimagic: false,
+	closed: false,
+	bisectedH: false,
+	bisectedV: false,
+	quadrisected: false
+};
+
+export const challengeStore: Writable<challengesType> = writable(storedChallenges);
+challengeStore.subscribe((value) => localStorage.setItem("challenges", JSON.stringify(value)));
+
+export function checkChallenges(
+	grid: number[][],
+	moves: Point[],
+	dimensions: Point
+): challengesType {
 	const { semimagic, magic } =
 		dimensions.x == dimensions.y
 			? checkMagic(grid, dimensions)
 			: { semimagic: false, magic: false };
 	const closed = checkClosed(grid, moves, dimensions);
-	const bisected: "h" | "v" | false = checkBisectedH(grid, dimensions)
-		? "h"
-		: checkBisectedV(grid, dimensions)
-			? "v"
-			: false;
+	const bisectedH = checkBisectedH(grid, dimensions);
+	const bisectedV = checkBisectedV(grid, dimensions);
 	const quadrisected =
 		dimensions.x % 2 == 0 && dimensions.y % 2 == 0 ? checkQuadrisected(grid, dimensions) : false;
-	return { semimagic, magic, closed, bisected, quadrisected };
+	const result = { semimagic, magic, closed, bisectedH, bisectedV, quadrisected };
+
+	updateStore(result);
+	return structuredClone(result);
+}
+function updateStore(result: ReturnType<typeof checkChallenges>) {
+	challengeStore.update((val) => {
+		(Object.keys(result) as (keyof typeof result)[]).forEach((c) => {
+			if (!Object.hasOwn(val, c) || val[c] == false) {
+				//@ts-ignore
+				val[c] = result[c];
+			}
+		});
+		return val;
+	});
 }

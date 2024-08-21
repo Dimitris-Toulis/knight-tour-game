@@ -11,7 +11,7 @@
 	import { presets } from "$lib/presets";
 	import * as confetti from "canvas-confetti";
 	import { onMount } from "svelte";
-	import { checkChallenges } from "$lib/challenges";
+	import { checkChallenges, type challengesType } from "$lib/challenges";
 
 	let dimensions = structuredClone(presets.Knight.dimensions);
 	let moves = structuredClone(presets.Knight.moves);
@@ -59,11 +59,12 @@
 		});
 	});
 
-	let challenges: ReturnType<typeof checkChallenges> = {
+	let challenges: challengesType = {
 		magic: false,
 		semimagic: false,
 		closed: false,
-		bisected: false,
+		bisectedH: false,
+		bisectedV: false,
 		quadrisected: false
 	};
 	function win() {
@@ -156,10 +157,10 @@
 		{#if challenges.closed}
 			<p class="font-600">Congratulations! Your tour is closed!</p>
 		{/if}
-		{#if challenges.bisected == "h"}
+		{#if challenges.bisectedH}
 			<p class="font-600">Congratulations! Your tour is horizontally bisected!</p>
 		{/if}
-		{#if challenges.bisected == "v"}
+		{#if challenges.bisectedV}
 			<p class="font-600">Congratulations! Your tour is vertically bisected!</p>
 		{/if}
 		{#if challenges.quadrisected}
