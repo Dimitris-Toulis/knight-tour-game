@@ -63,7 +63,8 @@
 		magic: false,
 		semimagic: false,
 		closed: false,
-		bisected: false
+		bisected: false,
+		quadrisected: false
 	};
 	function win() {
 		challenges = checkChallenges(
@@ -160,6 +161,9 @@
 		{/if}
 		{#if challenges.bisected == "v"}
 			<p class="font-600">Congratulations! Your tour is vertically bisected!</p>
+		{/if}
+		{#if challenges.quadrisected}
+			<p class="font-600">Congratulations! Your tour is quadrisected!</p>
 		{/if}
 	</div>
 	<canvas id="confetti-canvas"></canvas>

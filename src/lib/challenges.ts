@@ -31,11 +31,11 @@ function checkClosed(grid: number[][], moves: Point[], dimensions: Point) {
 			if (grid[x][y] == endN) end = { x, y };
 		}
 	}
-	if (start == null || end == null) return;
-	return canMove(end, start, moves);
+	return canMove(end!, start!, moves);
 }
 
 function checkBisectedH(grid: number[][], dimensions: Point) {
+	if (dimensions.y % 2 != 0) return false;
 	const middle = dimensions.y / 2;
 	let maxN = 0;
 	for (let x = 0; x < dimensions.x; x++) {
@@ -47,6 +47,7 @@ function checkBisectedH(grid: number[][], dimensions: Point) {
 }
 
 function checkBisectedV(grid: number[][], dimensions: Point) {
+	if (dimensions.x % 2 != 0) return false;
 	const middle = dimensions.x / 2;
 	let maxN = 0;
 	for (let x = 0; x < middle; x++) {
@@ -57,14 +58,41 @@ function checkBisectedV(grid: number[][], dimensions: Point) {
 	return (maxN = middle * dimensions.y);
 }
 
+function checkQuadrisected(grid: number[][], dimensions: Point) {
+	const middleX = dimensions.x / 2;
+	const middleY = dimensions.y / 2;
+	let quadrisected = true;
+	for (const bounds of [
+		{ x: [0, middleX], y: [0, middleY] },
+		{ x: [middleX, dimensions.x], y: [0, middleY] },
+		{ x: [0, middleX], y: [middleY, dimensions.y] },
+		{ x: [middleX, dimensions.x], y: [middleY, dimensions.y] }
+	]) {
+		let maxN = 0,
+			minN = dimensions.x * dimensions.y;
+		for (let x = bounds.x[0]; x < bounds.x[1]; x++) {
+			for (let y = bounds.y[0]; y < bounds.y[1]; y++) {
+				maxN = Math.max(maxN, grid[x][y]);
+				minN = Math.min(minN, grid[x][y]);
+			}
+		}
+		quadrisected &&= maxN - minN - 1 == (dimensions.x * dimensions.y) / 4;
+	}
+	return quadrisected;
+}
+
 export function checkChallenges(grid: number[][], moves: Point[], dimensions: Point) {
 	const { semimagic, magic } =
-		dimensions.x == dimensions.y ? checkMagic(grid, dimensions) : { semimagic: null, magic: null };
+		dimensions.x == dimensions.y
+			? checkMagic(grid, dimensions)
+			: { semimagic: false, magic: false };
 	const closed = checkClosed(grid, moves, dimensions);
 	const bisected: "h" | "v" | false = checkBisectedH(grid, dimensions)
 		? "h"
 		: checkBisectedV(grid, dimensions)
 			? "v"
 			: false;
-	return { semimagic, magic, closed, bisected };
+	const quadrisected =
+		dimensions.x % 2 == 0 && dimensions.y % 2 == 0 ? checkQuadrisected(grid, dimensions) : false;
+	return { semimagic, magic, closed, bisected, quadrisected };
 }
