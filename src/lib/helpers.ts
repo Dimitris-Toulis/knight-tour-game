@@ -7,6 +7,11 @@ export function tileC(index: number, d: { x: number; y: number }): Point {
 	const y = (index - x) / d.x;
 	return { x, y };
 }
+export function canMove(from: Point, to: Point, moves: Point[]) {
+	const dist = { x: to.x - from.x, y: to.y - from.y };
+	return moves.some((m) => m.x == dist.x && m.y == dist.y);
+}
+
 export function deepEqual(x: any, y: any): boolean {
 	const k = Object.keys,
 		tx = typeof x,

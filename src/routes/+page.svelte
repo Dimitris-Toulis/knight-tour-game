@@ -4,13 +4,14 @@
 	import Modal from "$lib/components/Modal.svelte";
 	import Settings from "$lib/components/Settings.svelte";
 	import Highscores from "$lib/components/Highscores.svelte";
+	import Challenges from "$lib/components/Challenges.svelte";
 
-	import { tileC, tileI } from "$lib/helpers";
-	import type { Point } from "$lib/helpers";
+	import { canMove, tileC, tileI } from "$lib/helpers";
 	import { newScore } from "$lib/highscores";
 	import { presets } from "$lib/presets";
 	import * as confetti from "canvas-confetti";
 	import { onMount } from "svelte";
+	import { checkChallenges } from "$lib/challenges";
 
 	let dimensions = structuredClone(presets.Knight.dimensions);
 	let moves = structuredClone(presets.Knight.moves);
@@ -19,10 +20,6 @@
 
 	let counter = 1;
 	let lastTile = -1;
-	function canMove(from: Point, to: Point) {
-		const dist = { x: to.x - from.x, y: to.y - from.y };
-		return moves.some((m) => m.x == dist.x && m.y == dist.y);
-	}
 	let availableTiles = [];
 	$: availableTiles =
 		lastTile == -1
@@ -36,7 +33,7 @@
 	$: if (availableTiles.length == 0 && lastTile != -1 && counter != dimensions.x * dimensions.y + 1)
 		showModalTrapped = true;
 	function canGo(to: number) {
-		return canMove(tileC(lastTile, dimensions), tileC(to, dimensions));
+		return canMove(tileC(lastTile, dimensions), tileC(to, dimensions), moves);
 	}
 	let showModalTrapped = false;
 	function gridClick(index: number) {
@@ -62,9 +59,19 @@
 		});
 	});
 
-	let highscore: number = 0;
-	onMount(() => (highscore = parseInt(localStorage.getItem("highscore") ?? "0")));
+	let challenges: ReturnType<typeof checkChallenges> = { magic: false, semimagic: false };
 	function win() {
+		challenges = checkChallenges(
+			Array(dimensions.x)
+				.fill(null)
+				.map((_, x) =>
+					Array(dimensions.y)
+						.fill(null)
+						.map((_, y) => grid[tileI({ x, y }, dimensions)])
+				),
+			moves,
+			dimensions
+		);
 		showModalWin = true;
 
 		if (canvasConfetti)
@@ -94,6 +101,7 @@
 	}
 
 	let showHighscoresModal = false;
+	let showChallengeModal = false;
 </script>
 
 <div class="px-3 py-5 min-h-[100dvh] flex flex-col gap-7">
@@ -119,6 +127,9 @@
 			</div>
 			<div class="flex flex-col gap-3 place-items-center justify-center pbs-3 grid-">
 				<div><Button xl on:click={() => (showHighscoresModal = true)}>Highscores</Button></div>
+				<div>
+					<Button xl on:click={() => (showChallengeModal = true)}>Challenges</Button>
+				</div>
 				<div><Button xl on:click={changeSettings}>New Game (Change Settings)</Button></div>
 				<div><Button xl on:click={restart}>New Game (Same Settings)</Button></div>
 				<div><Button xl on:click={undo}>Undo</Button></div>
@@ -128,7 +139,13 @@
 </div>
 
 <Modal bind:showModal={showModalWin}>
-	<h2 class="text-4xl">You won!</h2>
+	<h2 class="text-4xl text-center">You won!</h2>
+	{#if challenges.semimagic == true}
+		<p class="font-600">Congratulations! Your board is semimagic!</p>
+	{/if}
+	{#if !challenges.semimagic && challenges.magic}
+		<p class="font-600">Congratulations! Your board is magic!!</p>
+	{/if}
 	<canvas id="confetti-canvas"></canvas>
 </Modal>
 <Modal bind:showModal={showModalTrapped}>
@@ -136,6 +153,7 @@
 </Modal>
 <Settings bind:dimensions bind:moves bind:showModal={showModalSettings}></Settings>
 <Highscores bind:showModal={showHighscoresModal}></Highscores>
+<Challenges bind:showModal={showChallengeModal}></Challenges>
 
 <style>
 	#confetti-canvas {

@@ -13,10 +13,8 @@ export function newScore(dimensions: Point, moves: Point[], score: number) {
 	const settings = { dimensions, moves };
 	scoreStore.update((scores) => {
 		const index = scores.findIndex((entry) => deepEqual(entry.settings, settings));
-		console.log(scores);
 		if (index == -1) scores = [...scores, { settings, score }];
 		else scores[index].score = Math.max(scores[index].score, score);
-		console.log(index, scores);
 		return scores;
 	});
 }

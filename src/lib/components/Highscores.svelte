@@ -11,10 +11,9 @@
 				.replaceAll('"x"', "x")
 				.replaceAll('"y"', "y");
 			const name = `${score.settings.dimensions.x}x${score.settings.dimensions.y} with moves: ${moveDesc}`;
-			const customName: string = (Object.entries(presets).find((preset) => {
-				console.log(score.settings, preset[1], deepEqual(score.settings, preset[1]));
-				return deepEqual(score.settings, preset[1]);
-			}) ?? [name])[0];
+			const customName: string = (Object.entries(presets).find((preset) =>
+				deepEqual(score.settings, preset[1])
+			) ?? [name])[0];
 			return [customName, score.score];
 		})
 	);
