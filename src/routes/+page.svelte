@@ -53,12 +53,7 @@
 			counter++;
 			lastTile = index;
 			if (counter == dimensions.x * dimensions.y + 1) win();
-			newScore(
-				// hack to not change reactively in store
-				JSON.parse(JSON.stringify(dimensions)),
-				JSON.parse(JSON.stringify(moves)),
-				JSON.parse(JSON.stringify(counter - 1))
-			);
+			newScore(structuredClone(dimensions), structuredClone(moves), structuredClone(counter - 1));
 		}
 	}
 
