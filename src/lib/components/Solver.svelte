@@ -1,24 +1,40 @@
 <script lang="ts">
 	import type { Point } from "$lib/helpers";
 	import Modal from "./Modal.svelte";
-	import { initialize, solve } from "$lib/solver";
 	import Button from "./button.svelte";
 
 	export let grid: number[];
 	export let moves: Point[];
 	export let dimensions: Point;
 	export let showModal: boolean;
+	export let lastTile: number;
+	export let counter: number;
 
 	let initialized = false;
-	async function solveClick() {
-		if (!initialized) await initialize();
+	let _solve: (
+		grid: number[],
+		dimensions: Point,
+		moves: Point[]
+	) => Promise<Uint32Array | undefined>;
+	async function initialize() {
+		if (initialized) return _solve;
+		const { initialize: init, solve } = await import("$lib/solver");
+		await init();
 		initialized = true;
+		return (_solve = solve);
+	}
+	async function solveClick() {
+		const solve = await initialize();
 		const solution = await solve(
 			structuredClone(grid),
 			structuredClone(dimensions),
 			structuredClone(moves)
 		);
-		console.log(solution);
+		if (solution) {
+			grid = Array.from(solution);
+			lastTile = grid.indexOf(dimensions.x * dimensions.y);
+			counter = dimensions.x * dimensions.y + 1;
+		} else alert("No solution!");
 	}
 </script>
 

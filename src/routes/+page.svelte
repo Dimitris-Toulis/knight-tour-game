@@ -13,12 +13,10 @@
 	import * as confetti from "canvas-confetti";
 	import { onMount } from "svelte";
 	import { checkChallenges, type challengesType } from "$lib/challenges";
-	import "$lib/solver";
 
 	let dimensions = structuredClone(presets.Knight.dimensions);
 	let moves = structuredClone(presets.Knight.moves);
-	let grid: number[];
-	$: grid = Array(dimensions.x * dimensions.y).fill(0);
+	let grid = Array(dimensions.x * dimensions.y).fill(0);
 
 	let counter = 1;
 	let lastTile = -1;
@@ -98,6 +96,7 @@
 	}
 
 	function undo() {
+		if (lastTile == -1) return;
 		grid[lastTile] = 0;
 		lastTile = counter - 2 == 0 ? -1 : grid.indexOf(counter - 2);
 		counter--;
@@ -112,6 +111,8 @@
 	let showHighscoresModal = false;
 	let showChallengeModal = false;
 	let showSolverModal = false;
+
+	$: if (showModalSettings) grid = Array(dimensions.x * dimensions.y).fill(0);
 </script>
 
 <div class="px-3 py-5 min-h-[100dvh] flex flex-col gap-7">
@@ -179,7 +180,8 @@
 <Settings bind:dimensions bind:moves bind:showModal={showModalSettings}></Settings>
 <Highscores bind:showModal={showHighscoresModal}></Highscores>
 <Challenges bind:showModal={showChallengeModal}></Challenges>
-<Solver bind:showModal={showSolverModal} {dimensions} {moves} {grid}></Solver>
+<Solver bind:showModal={showSolverModal} {dimensions} {moves} bind:grid bind:lastTile bind:counter
+></Solver>
 
 <style>
 	#confetti-canvas {
