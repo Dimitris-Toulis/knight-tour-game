@@ -23,7 +23,8 @@
 		{/if}
 		<slot />
 		{#if closeBtn != ""}
-			<div class="flex justify-center my-3">
+			<div class="flex justify-center my-3 gap-3">
+				<slot name="buttons"></slot>
 				<Button on:click={() => dialog.close()}>{closeBtn}</Button>
 			</div>
 		{/if}

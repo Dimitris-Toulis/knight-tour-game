@@ -5,6 +5,7 @@
 	import Settings from "$lib/components/Settings.svelte";
 	import Highscores from "$lib/components/Highscores.svelte";
 	import Challenges from "$lib/components/Challenges.svelte";
+	import Solver from "$lib/components/Solver.svelte";
 
 	import { canMove, tileC, tileI } from "$lib/helpers";
 	import { newScore } from "$lib/highscores";
@@ -12,6 +13,7 @@
 	import * as confetti from "canvas-confetti";
 	import { onMount } from "svelte";
 	import { checkChallenges, type challengesType } from "$lib/challenges";
+	import "$lib/solver";
 
 	let dimensions = structuredClone(presets.Knight.dimensions);
 	let moves = structuredClone(presets.Knight.moves);
@@ -109,6 +111,7 @@
 
 	let showHighscoresModal = false;
 	let showChallengeModal = false;
+	let showSolverModal = false;
 </script>
 
 <div class="px-3 py-5 min-h-[100dvh] flex flex-col gap-7">
@@ -139,6 +142,7 @@
 				</div>
 				<div><Button xl on:click={changeSettings}>New Game (Change Settings)</Button></div>
 				<div><Button xl on:click={restart}>New Game (Same Settings)</Button></div>
+				<div><Button xl on:click={() => (showSolverModal = true)}>Open Solver</Button></div>
 				<div><Button xl on:click={undo}>Undo</Button></div>
 			</div>
 		</div>
@@ -175,6 +179,7 @@
 <Settings bind:dimensions bind:moves bind:showModal={showModalSettings}></Settings>
 <Highscores bind:showModal={showHighscoresModal}></Highscores>
 <Challenges bind:showModal={showChallengeModal}></Challenges>
+<Solver bind:showModal={showSolverModal} {dimensions} {moves} {grid}></Solver>
 
 <style>
 	#confetti-canvas {
