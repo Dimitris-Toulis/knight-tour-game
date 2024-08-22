@@ -7,14 +7,14 @@
 	let namedHighscores: Map<string, number>;
 	$: namedHighscores = new Map(
 		$scoreStore.map((score) => {
+			const customMoveDesc: string | null = (Object.entries(presets).find((preset) =>
+				deepEqual(score.settings.moves, preset[1].moves)
+			) ?? [null])[0];
 			const moveDesc = JSON.stringify(score.settings.moves)
 				.replaceAll('"x"', "x")
 				.replaceAll('"y"', "y");
-			const name = `${score.settings.dimensions.x}x${score.settings.dimensions.y} with moves: ${moveDesc}`;
-			const customName: string = (Object.entries(presets).find((preset) =>
-				deepEqual(score.settings, preset[1])
-			) ?? [name])[0];
-			return [customName, score.score];
+			const name = `${score.settings.dimensions.x}x${score.settings.dimensions.y} ${customMoveDesc ? customMoveDesc : "with moves: " + moveDesc}`;
+			return [name, score.score];
 		})
 	);
 
