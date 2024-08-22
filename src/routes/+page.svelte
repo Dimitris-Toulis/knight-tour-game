@@ -190,5 +190,6 @@
 	}
 	#main-grid {
 		grid-template-columns: repeat(var(--dimensionX), minmax(0, 1fr));
+		font-size: clamp(1rem, 0.7283rem + 1.8898vw, 2.5rem);
 	}
 </style>
