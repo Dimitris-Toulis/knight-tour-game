@@ -38,7 +38,7 @@
 	}
 </script>
 
-<Modal {showModal} hasHeader closeBtn="Close">
+<Modal bind:showModal hasHeader closeBtn="Close">
 	<h3 class="text-2xl text-center" slot="header">Solver</h3>
 	<hr />
 	<p>
