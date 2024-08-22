@@ -52,7 +52,7 @@
 		const canvas = document.getElementById("confetti-canvas") as HTMLCanvasElement;
 		canvas.width = window.innerWidth;
 		canvas.height = window.innerHeight;
-		canvasConfetti = await confetti.create(canvas, {
+		canvasConfetti = confetti.create(canvas, {
 			disableForReducedMotion: true,
 			resize: false,
 			useWorker: true
@@ -80,13 +80,27 @@
 			dimensions
 		);
 		showModalWin = true;
+		if (canvasConfetti) {
+			var end = Date.now() + 5 * 1000;
 
-		if (canvasConfetti)
-			canvasConfetti({
-				particleCount: 100,
-				spread: 70,
-				origin: { y: 0.7 }
-			});
+			(async function frame() {
+				canvasConfetti({
+					particleCount: 30,
+					spread: 55,
+					origin: { x: 0.35, y: 0.55 }
+				});
+				canvasConfetti({
+					particleCount: 30,
+					spread: 55,
+					origin: { x: 0.65, y: 0.55 }
+				});
+				await new Promise((res) => setTimeout(res, 100));
+
+				if (Date.now() < end) {
+					requestAnimationFrame(frame);
+				}
+			})();
+		}
 	}
 
 	function restart() {
