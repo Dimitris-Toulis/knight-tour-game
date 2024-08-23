@@ -47,9 +47,6 @@
 		This solver uses the Warnsdorf's rule to quickly find a solution (if possible) to the current
 		grid
 	</p>
-	<p>
-		If there is no solution and it is not detected by some simple heuristics the solver may take a
-		long time to run because it needs to check all possible paths
-	</p>
+	<p>This will not count towards challenges</p>
 	<Button on:click={solveClick} slot="buttons">Solve!</Button>
 </Modal>
