@@ -138,7 +138,9 @@
 					id="main-grid"
 					class="grid border-4 border-black lg:max-w-[min(80dvh,80dvw)] flex-1"
 					class:!max-w-full={dimensions.x > 15}
-					style="--dimensionX: {dimensions.x}"
+					style="--dimensionX: {dimensions.x}; --max-digits: {Math.ceil(
+						Math.log10(dimensions.x * dimensions.y)
+					) - 1}"
 				>
 					{#each grid as n, index (index)}
 						<Tile
@@ -211,6 +213,10 @@
 	}
 	#main-grid {
 		grid-template-columns: repeat(var(--dimensionX), minmax(0, 1fr));
-		font-size: clamp(1rem, 0.7283rem + 1.8898vw, 2.5rem);
+		font-size: clamp(
+			calc(1rem / var(--max-digits)),
+			calc(1.5 * (0.7283rem + 1.8898vw) / var(--max-digits)),
+			calc(2.5rem / var(--max-digits))
+		);
 	}
 </style>
