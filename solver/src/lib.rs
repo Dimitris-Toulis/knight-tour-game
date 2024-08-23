@@ -1,3 +1,4 @@
+#[cfg(debug_assertions)]
 mod utils;
 
 use wasm_bindgen::prelude::*;
@@ -5,14 +6,16 @@ use wasm_bindgen::prelude::*;
 #[wasm_bindgen]
 pub fn solve(
     mut grid: Vec<i32>,
-    last_tile: usize,
+    last_tile_x: usize,
+    last_tile_y: usize,
     dimension_x: usize,
     dimension_y: usize,
     moves_x: Vec<isize>,
     moves_y: Vec<isize>,
 ) -> Option<Vec<i32>> {
+    #[cfg(debug_assertions)]
     utils::set_panic_hook();
-    let counter = grid[last_tile];
+    let counter = grid[tile_i(last_tile_x, last_tile_y, (dimension_x, dimension_y))];
     if solve_util(
         &mut grid,
         (dimension_x, dimension_y),
@@ -21,7 +24,7 @@ pub fn solve(
             .enumerate()
             .map(|(i, &m)| -> (isize, isize) { (m, moves_y[i]) })
             .collect(),
-        tile_c(last_tile, (dimension_x, dimension_y)),
+        (last_tile_x, last_tile_y),
         counter,
     ) {
         Some(grid)
@@ -37,13 +40,6 @@ fn in_bounds(x: isize, y: isize, dimensions: (usize, usize)) -> bool {
 fn tile_i(x: usize, y: usize, dimensions: (usize, usize)) -> usize {
     x + y * dimensions.0
 }
-fn tile_c(index: usize, dimensions: (usize, usize)) -> (usize, usize) {
-    (
-        index % dimensions.0,
-        (index - index % dimensions.0) / dimensions.0,
-    )
-}
-
 fn calc_next_tiles(
     grid: &Vec<i32>,
     dimensions: (usize, usize),
