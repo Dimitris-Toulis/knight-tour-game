@@ -4,16 +4,17 @@ use wasm_bindgen::prelude::*;
 
 #[wasm_bindgen]
 pub fn solve(
-    grid: Box<[i32]>,
+    mut grid: Vec<i32>,
     last_tile: usize,
     dimension_x: usize,
     dimension_y: usize,
-    moves_x: Box<[isize]>,
-    moves_y: Box<[isize]>,
+    moves_x: Vec<isize>,
+    moves_y: Vec<isize>,
 ) -> Option<Vec<i32>> {
     utils::set_panic_hook();
-    solve_util(
-        &mut grid.to_vec(),
+    let counter = grid[last_tile];
+    if solve_util(
+        &mut grid,
         (dimension_x, dimension_y),
         &moves_x
             .iter()
@@ -21,8 +22,12 @@ pub fn solve(
             .map(|(i, &m)| -> (isize, isize) { (m, moves_y[i]) })
             .collect(),
         tile_c(last_tile, (dimension_x, dimension_y)),
-        grid.to_vec()[last_tile],
-    )
+        counter,
+    ) {
+        Some(grid)
+    } else {
+        None
+    }
 }
 
 fn in_bounds(x: isize, y: isize, dimensions: (usize, usize)) -> bool {
@@ -64,9 +69,9 @@ fn solve_util(
     moves: &Vec<(isize, isize)>,
     last_tile: (usize, usize),
     counter: i32,
-) -> Option<Vec<i32>> {
+) -> bool {
     if counter == ((dimensions.0 * dimensions.1) as i32) {
-        return Some(grid.clone());
+        return true;
     }
     let mut next_tiles: Vec<(usize, usize)> = calc_next_tiles(&grid, dimensions, moves, last_tile);
     next_tiles.sort_by(|a, b| {
@@ -78,12 +83,12 @@ fn solve_util(
         grid[tile_i(x, y, dimensions)] = counter + 1;
 
         let sol = solve_util(grid, dimensions, &moves, (x, y), counter + 1);
-        if sol.is_none() {
+        if !sol {
             grid[tile_i(x, y, dimensions)] = 0;
         } else {
-            return sol;
+            return true;
         }
     }
 
-    None
+    false
 }
