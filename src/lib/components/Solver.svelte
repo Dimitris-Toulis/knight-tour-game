@@ -12,10 +12,11 @@
 
 	let initialized = false;
 	let _solve: (
-		grid: number[],
+		_grid: number[],
 		dimensions: Point,
-		moves: Point[]
-	) => Promise<Uint32Array | undefined>;
+		_moves: Point[],
+		lastTile: number
+	) => Promise<Int32Array | undefined> | Promise<Uint32Array | undefined>;
 	async function initialize() {
 		if (initialized) return _solve;
 		const { initialize: init, solve } = await import("$lib/solver");
@@ -28,7 +29,8 @@
 		const solution = await solve(
 			structuredClone(grid),
 			structuredClone(dimensions),
-			structuredClone(moves)
+			structuredClone(moves),
+			lastTile
 		);
 		if (solution) {
 			grid = Array.from(solution);
