@@ -6,6 +6,10 @@ export async function initialize() {
 	await init({ module_or_path: wasmPath });
 }
 export async function solve(_grid: number[], dimensions: Point, _moves: Point[], lastTile: number) {
+	if (lastTile == -1) {
+		lastTile = 0;
+		_grid[0] = 1;
+	}
 	const grid = new Int32Array(_grid);
 	const moves_x = new Int32Array(_moves.map((m) => m.x));
 	const moves_y = new Int32Array(_moves.map((m) => m.y));
