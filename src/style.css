@@ -1,0 +1,6 @@
+body.dark {
+	color-scheme: dark;
+}
+body.dark hr {
+	border-color: rgb(31 41 55);
+}

@@ -38,7 +38,9 @@
 					<div class="flex gap-4 justify-between">
 						<div><span>{score[0]}</span>: <span class="font-500">{score[1]}</span></div>
 						<div class="flex place-items-center">
-							<Button classes="!bg-red-500 !p-2" on:click={() => deleteScore(index)}
+							<Button
+								classes="!bg-red-500 !dark:bg-red-600 !p-2"
+								on:click={() => deleteScore(index)}
 								><div class="i-material-symbols-delete"></div></Button
 							>
 						</div>

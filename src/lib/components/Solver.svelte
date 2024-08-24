@@ -44,7 +44,6 @@
 
 <Modal bind:showModal hasHeader>
 	<h3 class="text-2xl text-center" slot="header">Solver</h3>
-	<hr />
 	<p>
 		This solver uses the Warnsdorf's rule to quickly find a solution (if possible) to the current
 		grid

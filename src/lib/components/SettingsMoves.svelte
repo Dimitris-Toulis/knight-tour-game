@@ -37,7 +37,8 @@
 				<Button
 					on:click={() => (moves = moves.filter((m, i) => i != index))}
 					type="button"
-					classes="!bg-red-500"><div class="i-material-symbols-delete"></div></Button
+					classes="!bg-red-500 !dark:bg-red-600"
+					><div class="i-material-symbols-delete"></div></Button
 				>
 			</li>
 		{/each}

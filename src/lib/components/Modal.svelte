@@ -17,10 +17,10 @@
 	on:click|self={() => dialog.close()}
 >
 	<!-- svelte-ignore a11y-no-static-element-interactions -->
-	<div on:click|stopPropagation class="p-4">
+	<div on:click|stopPropagation class="p-4 dark:bg-slate-7 dark:text-gray-100">
 		{#if hasHeader}
 			<slot name="header" />
-			<hr />
+			<hr class="mb-1" />
 		{/if}
 		<slot />
 		{#if closeBtn != ""}

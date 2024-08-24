@@ -12,7 +12,7 @@
 		type="number"
 		name={id}
 		{id}
-		class="border-black border-1 p-2 rounded-md invalid:border-red-500"
+		class="border-black border-1 p-2 rounded-md invalid:border-red-500 dark:border-gray-400 dark:bg-slate-6 dark:text-gray-100"
 		required
 		{min}
 		{max}
