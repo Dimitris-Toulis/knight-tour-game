@@ -3,6 +3,7 @@
 	import { scoreStore } from "$lib/highscores";
 	import { presets } from "$lib/presets";
 	import { deepEqual } from "$lib/helpers";
+	import Button from "./Button.svelte";
 
 	let namedHighscores: Map<string, number>;
 	$: namedHighscores = new Map(
@@ -18,19 +19,32 @@
 		})
 	);
 
+	function deleteScore(index: number) {
+		$scoreStore = $scoreStore.filter((_, i) => i != index);
+	}
+
 	export let showModal = false;
 </script>
 
 <Modal bind:showModal hasHeader closeBtn="Close">
 	<h2 class="text-2xl text-center" slot="header">Highscores</h2>
-	<div class="py-3">
-		<ul>
-			{#each namedHighscores as score (score[0])}
-				<li class="text-lg"><span>{score[0]}</span>: <span class="font-500">{score[1]}</span></li>
+	<div class="p-3">
+		{#if $scoreStore.length == 0}
+			<p class="text-center">Go play!</p>
+		{/if}
+		<ul class="list-disc flex flex-col gap-1">
+			{#each namedHighscores as score, index (score[0])}
+				<li class="text-lg">
+					<div class="flex gap-4 justify-between">
+						<div><span>{score[0]}</span>: <span class="font-500">{score[1]}</span></div>
+						<div class="flex place-items-center">
+							<Button classes="!bg-red-500 !p-2" on:click={() => deleteScore(index)}
+								><div class="i-material-symbols-delete"></div></Button
+							>
+						</div>
+					</div>
+				</li>
 			{/each}
-			{#if $scoreStore.length == 0}
-				<p class="text-center">Go play!</p>
-			{/if}
 		</ul>
 	</div>
 </Modal>

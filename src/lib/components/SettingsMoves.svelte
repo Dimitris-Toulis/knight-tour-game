@@ -34,8 +34,10 @@
 					min={-dimensions.y}
 					bind:value={move.y}
 				></SettingsInput>
-				<Button on:click={() => (moves = moves.filter((m, i) => i != index))} type="button"
-					><div class="i-material-symbols-delete"></div></Button
+				<Button
+					on:click={() => (moves = moves.filter((m, i) => i != index))}
+					type="button"
+					classes="!bg-red-500"><div class="i-material-symbols-delete"></div></Button
 				>
 			</li>
 		{/each}
