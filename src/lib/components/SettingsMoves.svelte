@@ -10,7 +10,7 @@
 	<h3 class="text-xl text-center">Moves</h3>
 	<hr />
 	<div class="flex place-items-center justify-between gap-2">
-		<p class="my-2">Symmetric movesets might be more interesting</p>
+		<p class="my-2">Symmetric moves might be more interesting</p>
 		<div class="flex gap-3 my-3">
 			<Button on:click={() => (moves = [...moves, { x: 0, y: 0 }])} type="button"
 				><div class="i-material-symbols-add"></div></Button

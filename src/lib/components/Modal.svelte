@@ -25,7 +25,7 @@
 		<slot />
 		{#if closeBtn != ""}
 			<div class="flex justify-center">
-				<Button on:click={() => dialog.close()}>{closeBtn}</Button>
+				<Button autofocus on:click={() => dialog.close()}>{closeBtn}</Button>
 			</div>
 		{/if}
 	</div>

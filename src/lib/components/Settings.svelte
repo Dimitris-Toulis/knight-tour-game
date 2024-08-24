@@ -70,7 +70,7 @@
 				<h3 class="text-xl text-center">Dimensions</h3>
 				<hr />
 				<p class="my-3">
-					Not all dimensions + moveset combinations are solvable
+					Not all dimensions + moves combinations are solvable
 					<span class="text-sm">Knight's Tour is not solvable on 4x4</span>
 				</p>
 				<div class="flex md:flex-row flex-col gap-3 justify-evenly">

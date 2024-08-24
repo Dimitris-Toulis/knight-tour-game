@@ -13,7 +13,7 @@
 </script>
 
 <button
-	class="position-fixed top-0 right-0 w-10 h-10 flex justify-center place-items-center text-3xl mbs-1 mie-1"
+	class="position-absolute top-0 right-0 w-10 h-10 flex justify-center place-items-center text-3xl mbs-1 mie-1"
 	on:click={changeMode}
 >
 	<div class="i-material-symbols-mode-night-outline text-black" class:hidden={mode == "dark"}></div>
