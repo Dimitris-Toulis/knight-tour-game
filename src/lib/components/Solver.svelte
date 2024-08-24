@@ -9,6 +9,7 @@
 	export let showModal: boolean;
 	export let lastTile: number;
 	export let counter: number;
+	export let solverUsed: boolean;
 
 	let initialized = false;
 	let _solve: (
@@ -36,6 +37,7 @@
 			grid = Array.from(solution);
 			lastTile = grid.indexOf(dimensions.x * dimensions.y);
 			counter = dimensions.x * dimensions.y + 1;
+			solverUsed = true;
 		} else alert("No solution!");
 	}
 </script>
@@ -47,7 +49,7 @@
 		This solver uses the Warnsdorf's rule to quickly find a solution (if possible) to the current
 		grid
 	</p>
-	<p>This will not count towards challenges</p>
+	<p>This will not count towards challenges or highscores</p>
 
 	<div class="flex justify-center my-3 gap-3">
 		<Button on:click={solveClick} slot="buttons">Solve!</Button>

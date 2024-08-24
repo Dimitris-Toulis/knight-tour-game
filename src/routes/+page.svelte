@@ -46,6 +46,11 @@
 		}
 	}
 
+	let showHighscoresModal = false;
+	let showChallengeModal = false;
+	let showSolverModal = false;
+	let solverUsed = false;
+
 	let showModalWin = false;
 	let canvasConfetti: confetti.CreateTypes | undefined = undefined;
 	onMount(async () => {
@@ -68,6 +73,7 @@
 		quadrisected: false
 	};
 	function win() {
+		if (solverUsed) return;
 		challenges = checkChallenges(
 			Array(dimensions.x)
 				.fill(null)
@@ -107,6 +113,7 @@
 		grid = Array(dimensions.x * dimensions.y).fill(0);
 		counter = 1;
 		lastTile = -1;
+		solverUsed = false;
 	}
 
 	function undo() {
@@ -121,10 +128,6 @@
 		restart();
 		showModalSettings = true;
 	}
-
-	let showHighscoresModal = false;
-	let showChallengeModal = false;
-	let showSolverModal = false;
 
 	$: if (showModalSettings) grid = Array(dimensions.x * dimensions.y).fill(0);
 </script>
@@ -196,7 +199,14 @@
 <Settings bind:dimensions bind:moves bind:showModal={showModalSettings}></Settings>
 <Highscores bind:showModal={showHighscoresModal}></Highscores>
 <Challenges bind:showModal={showChallengeModal}></Challenges>
-<Solver bind:showModal={showSolverModal} {dimensions} {moves} bind:grid bind:lastTile bind:counter
+<Solver
+	bind:showModal={showSolverModal}
+	{dimensions}
+	{moves}
+	bind:grid
+	bind:lastTile
+	bind:counter
+	bind:solverUsed
 ></Solver>
 
 <style>
