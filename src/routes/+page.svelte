@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Button from "$lib/components/button.svelte";
+	import Button from "$lib/components/Button.svelte";
 	import Tile from "$lib/components/tile.svelte";
 	import Modal from "$lib/components/Modal.svelte";
 	import Settings from "$lib/components/Settings.svelte";

@@ -1,7 +1,7 @@
 <script lang="ts">
 	import SettingsInput from "$lib/components/SettingsInput.svelte";
 	import SettingsMoves from "$lib/components/SettingsMoves.svelte";
-	import Button from "./button.svelte";
+	import Button from "./Button.svelte";
 	import Modal from "$lib/components/Modal.svelte";
 	import { presets } from "$lib/presets";
 	import type { Point } from "$lib/helpers";
@@ -10,9 +10,14 @@
 	export let dimensions: Point;
 	export let moves: Point[];
 
+	let newSettings = {
+		dimensions: structuredClone(dimensions),
+		moves: structuredClone(moves)
+	};
+
 	function preset(p: string) {
-		dimensions = structuredClone(presets[p as keyof typeof presets].dimensions);
-		moves = structuredClone(presets[p as keyof typeof presets].moves);
+		newSettings.dimensions = structuredClone(presets[p as keyof typeof presets].dimensions);
+		newSettings.moves = structuredClone(presets[p as keyof typeof presets].moves);
 	}
 	function exportSettings() {
 		alert(JSON.stringify({ dimensions, moves }));
@@ -33,11 +38,22 @@
 			}
 		}
 	}
+
+	function changeSettings(e: SubmitEvent) {
+		const form = e.target as HTMLFormElement;
+		if (form.checkValidity()) {
+			dimensions = structuredClone(newSettings.dimensions);
+			moves = structuredClone(newSettings.moves);
+			setTimeout(() => {
+				showModal = false;
+			}, 1);
+		}
+	}
 </script>
 
-<Modal bind:showModal closeBtn="New Game" hasHeader>
+<Modal bind:showModal hasHeader>
 	<h2 class="text-2xl text-center" slot="header">Settings</h2>
-	<div class="my-4 mx-2 flex flex-col gap-3">
+	<div class="mbs-4 mx-2 flex flex-col gap-3">
 		<div>
 			<h3 class="text-xl text-center">Presets</h3>
 			<hr />
@@ -49,20 +65,36 @@
 				<Button on:click={importSettings}>Import settings</Button>
 			</div>
 		</div>
-		<div>
-			<h3 class="text-xl text-center">Dimensions</h3>
-			<hr />
-			<p class="my-3">
-				Not all dimensions + moveset combinations are solvable
-				<span class="text-sm">Knight's Tour is not solvable on 4x4</span>
-			</p>
-			<div class="flex flex-col gap-3">
-				<SettingsInput name="Columns" id="dimensionX" max={50} min={4} bind:value={dimensions.x}
-				></SettingsInput>
-				<SettingsInput name="Rows" id="dimensionY" max={50} min={4} bind:value={dimensions.y}
-				></SettingsInput>
+		<form on:submit|preventDefault={changeSettings} class="flex flex-col gap-3">
+			<div>
+				<h3 class="text-xl text-center">Dimensions</h3>
+				<hr />
+				<p class="my-3">
+					Not all dimensions + moveset combinations are solvable
+					<span class="text-sm">Knight's Tour is not solvable on 4x4</span>
+				</p>
+				<div class="flex md:flex-row flex-col gap-3 justify-evenly">
+					<SettingsInput
+						name="Columns"
+						id="dimensionX"
+						max={50}
+						min={4}
+						bind:value={newSettings.dimensions.x}
+					></SettingsInput>
+					<SettingsInput
+						name="Rows"
+						id="dimensionY"
+						max={50}
+						min={4}
+						bind:value={newSettings.dimensions.y}
+					></SettingsInput>
+				</div>
 			</div>
-		</div>
-		<SettingsMoves bind:moves {dimensions}></SettingsMoves>
+			<SettingsMoves bind:moves={newSettings.moves} dimensions={newSettings.dimensions}
+			></SettingsMoves>
+			<div class="flex justify-center">
+				<Button>New Game</Button>
+			</div>
+		</form>
 	</div>
 </Modal>

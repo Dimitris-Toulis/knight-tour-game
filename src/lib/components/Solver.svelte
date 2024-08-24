@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { Point } from "$lib/helpers";
 	import Modal from "./Modal.svelte";
-	import Button from "./button.svelte";
+	import Button from "./Button.svelte";
 
 	export let grid: number[];
 	export let moves: Point[];
@@ -40,7 +40,7 @@
 	}
 </script>
 
-<Modal bind:showModal hasHeader closeBtn="Close">
+<Modal bind:showModal hasHeader>
 	<h3 class="text-2xl text-center" slot="header">Solver</h3>
 	<hr />
 	<p>
@@ -48,5 +48,9 @@
 		grid
 	</p>
 	<p>This will not count towards challenges</p>
-	<Button on:click={solveClick} slot="buttons">Solve!</Button>
+
+	<div class="flex justify-center my-3 gap-3">
+		<Button on:click={solveClick} slot="buttons">Solve!</Button>
+		<Button on:click={() => (showModal = false)} slot="buttons">Close</Button>
+	</div>
 </Modal>

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Button from "$lib/components/button.svelte";
+	import Button from "$lib/components/Button.svelte";
 	export let showModal: boolean;
 	export let closeBtn: string = "";
 	export let hasHeader: boolean = false;
@@ -7,6 +7,7 @@
 	let dialog: HTMLDialogElement;
 
 	$: if (dialog && showModal) dialog.showModal();
+	$: if (dialog && !showModal) dialog.close();
 </script>
 
 <!-- svelte-ignore a11y-click-events-have-key-events a11y-no-noninteractive-element-interactions -->
@@ -23,10 +24,7 @@
 		{/if}
 		<slot />
 		{#if closeBtn != ""}
-			<div class="flex justify-center my-3 gap-3">
-				<slot name="buttons"></slot>
-				<Button on:click={() => dialog.close()}>{closeBtn}</Button>
-			</div>
+			<Button on:click={() => dialog.close()}>{closeBtn}</Button>
 		{/if}
 	</div>
 </dialog>
