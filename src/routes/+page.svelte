@@ -135,25 +135,23 @@
 <div class="px-3 py-5 min-h-[100dvh] flex flex-col gap-7">
 	<h1 class="text-center text-2xl font-500">Knight Tour Game</h1>
 	<main class="flex-1">
-		<div class="flex gap-5 <lg:flex-col" class:flex-col={dimensions.x > 15}>
-			<div class="flex place-items-center justify-center flex-1">
-				<div
-					id="main-grid"
-					class="grid border-4 border-black lg:max-w-[min(80dvh,80dvw)] flex-1"
-					class:!max-w-full={dimensions.x > 15}
-					style="--dimensionX: {dimensions.x}; --max-digits: {Math.ceil(
-						Math.log10(dimensions.x * dimensions.y)
-					) - 1}"
-				>
-					{#each grid as n, index (index)}
-						<Tile
-							num={n}
-							on:click={() => gridClick(index)}
-							selected={lastTile == index}
-							candidate={lastTile != -1 && grid[index] == 0 && canGo(index)}
-						></Tile>
-					{/each}
-				</div>
+		<div class="flex gap-5 <lg:flex-col justify-evenly" class:flex-col={dimensions.x > 15}>
+			<div
+				id="main-grid"
+				class="grid border-4 border-black lg:max-w-[min(80dvh,80dvw)] flex-1"
+				class:!max-w-full={dimensions.x > 15}
+				style="--dimensionX: {dimensions.x}; --max-digits: {Math.ceil(
+					Math.log10(dimensions.x * dimensions.y)
+				) - 1}"
+			>
+				{#each grid as n, index (index)}
+					<Tile
+						num={n}
+						on:click={() => gridClick(index)}
+						selected={lastTile == index}
+						candidate={lastTile != -1 && grid[index] == 0 && canGo(index)}
+					></Tile>
+				{/each}
 			</div>
 			<div class="flex flex-col gap-3 place-items-center justify-center pbs-3 grid-">
 				<div><Button xl on:click={() => (showHighscoresModal = true)}>Highscores</Button></div>
