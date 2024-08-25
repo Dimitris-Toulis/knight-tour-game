@@ -38,7 +38,9 @@
 		return canMove(tileC(lastTile, dimensions), tileC(to, dimensions), moves);
 	}
 	let showModalTrapped = false;
+	let freezeGrid = false;
 	function gridClick(index: number) {
+		if (freezeGrid) return;
 		if (grid[index] == 0 && (canGo(index) || lastTile == -1)) {
 			grid[index] = counter;
 			counter++;
@@ -163,7 +165,7 @@
 						num={n}
 						on:click={() => gridClick(index)}
 						selected={lastTile == index}
-						candidate={lastTile != -1 && grid[index] == 0 && canGo(index)}
+						candidate={lastTile != -1 && grid[index] == 0 && canGo(index) && !freezeGrid}
 					></Tile>
 				{/each}
 			</div>
@@ -219,6 +221,7 @@
 	bind:lastTile
 	bind:counter
 	bind:solverUsed
+	bind:freezeGrid
 ></Solver>
 <Guide bind:showModal={showGuide}></Guide>
 

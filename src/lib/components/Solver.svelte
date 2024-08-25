@@ -10,6 +10,9 @@
 	export let lastTile: number;
 	export let counter: number;
 	export let solverUsed: boolean;
+	export let freezeGrid: boolean;
+
+	let slowmo = false;
 
 	let initialized = false;
 	let _solve: (
@@ -34,11 +37,25 @@
 			lastTile
 		);
 		if (solution) {
-			grid = Array.from(solution);
+			if (slowmo) {
+				showModal = false;
+				freezeGrid = true;
+				for (let i = counter; i <= dimensions.x * dimensions.y; i++) {
+					const next = solution.indexOf(i);
+					grid[next] = i;
+					lastTile = next;
+					counter++;
+					await new Promise((res) => setTimeout(res, 100));
+				}
+				freezeGrid = false;
+			} else {
+				grid = Array.from(solution);
+			}
 			lastTile = grid.indexOf(dimensions.x * dimensions.y);
 			counter = dimensions.x * dimensions.y + 1;
 			solverUsed = true;
 		} else alert("No solution!");
+		showModal = false;
 	}
 </script>
 
@@ -49,7 +66,10 @@
 		grid
 	</p>
 	<p>This will not count towards challenges or highscores</p>
-
+	<div class="flex gap-2">
+		<input type="checkbox" name="slowmo" id="slowmo" bind:checked={slowmo} />
+		<label for="slowmo">Reveal solution step-by-step</label>
+	</div>
 	<div class="flex justify-center my-3 gap-3">
 		<Button on:click={solveClick} slot="buttons">Solve!</Button>
 		<Button on:click={() => (showModal = false)} slot="buttons">Close</Button>
