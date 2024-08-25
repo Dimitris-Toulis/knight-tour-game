@@ -41,6 +41,10 @@
 				showModal = false;
 				freezeGrid = true;
 				for (let i = counter; i <= dimensions.x * dimensions.y; i++) {
+					if (!slowmo) {
+						grid = Array.from(solution);
+						break;
+					}
 					const next = solution.indexOf(i);
 					grid[next] = i;
 					lastTile = next;
