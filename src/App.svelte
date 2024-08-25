@@ -2,19 +2,18 @@
 	import Button from "./lib/components/Button.svelte";
 	import Tile from "./lib/components/tile.svelte";
 	import Modal from "./lib/components/Modal.svelte";
-	import Settings from "./lib/components/Settings.svelte";
-	import Highscores from "./lib/components/Highscores.svelte";
-	import Challenges from "./lib/components/Challenges.svelte";
-	import Solver from "./lib/components/Solver.svelte";
+	import type TSettings from "./lib/components/Settings.svelte";
+	import type THighscores from "./lib/components/Highscores.svelte";
+	import type TChallenges from "./lib/components/Challenges.svelte";
+	import type TSolver from "./lib/components/Solver.svelte";
+	import type TGuide from "./lib/components/Guide.svelte";
 
 	import { canMove, tileC, tileI } from "./lib/helpers";
 	import { newScore } from "./lib/highscores";
 	import { presets } from "./lib/presets";
-	import * as confetti from "canvas-confetti";
 	import { onMount } from "svelte";
 	import { checkChallenges, type challengesType } from "./lib/challenges";
 	import ThemeToggle from "./lib/components/ThemeToggle.svelte";
-	import Guide from "./lib/components/Guide.svelte";
 
 	let dimensions = structuredClone(presets.Knight.dimensions);
 	let moves = structuredClone(presets.Knight.moves);
@@ -49,27 +48,43 @@
 			newScore(structuredClone(dimensions), structuredClone(moves), structuredClone(counter - 1));
 		}
 	}
+	const show = {
+		Highscores: false,
+		Challenges: false,
+		Solver: false,
+		Guide: false,
+		Settings: false
+	};
+	const components: {
+		Highscores?: Promise<THighscores>;
+		Challenges?: Promise<TChallenges>;
+		Solver?: Promise<TSolver>;
+		Guide?: Promise<TGuide>;
+		Settings?: Promise<TSettings>;
+	} = Object.fromEntries(
+		Object.entries(show).map(([c, _]) => [
+			c,
+			(async () => (await import(`./lib/components/${c}.svelte`)).default)()
+		])
+	);
 
-	let showHighscoresModal = false;
-	let showChallengeModal = false;
-	let showSolverModal = false;
-	let showGuide = false;
 	let solverUsed = false;
 
 	let showModalWin = false;
 	let canvasConfetti: confetti.CreateTypes | undefined = undefined;
 	onMount(async () => {
+		console.log((await components.Guide!).default);
 		const canvas = document.getElementById("confetti-canvas") as HTMLCanvasElement;
 		canvas.width = window.innerWidth;
 		canvas.height = window.innerHeight;
-		canvasConfetti = confetti.create(canvas, {
+		canvasConfetti = (await import("canvas-confetti")).default.create(canvas, {
 			disableForReducedMotion: true,
 			resize: false,
 			useWorker: true
 		});
 		if (!localStorage.getItem("visited")) {
 			localStorage.setItem("visited", "true");
-			showGuide = true;
+			openModal("Guide");
 		}
 	});
 
@@ -132,13 +147,15 @@
 		counter--;
 	}
 
-	let showModalSettings = false;
 	function changeSettings() {
 		restart();
-		showModalSettings = true;
+		openModal("Settings");
 	}
+	$: if (show.Settings) grid = Array(dimensions.x * dimensions.y).fill(0);
 
-	$: if (showModalSettings) grid = Array(dimensions.x * dimensions.y).fill(0);
+	async function openModal(name: keyof typeof components) {
+		show[name] = true;
+	}
 </script>
 
 <ThemeToggle></ThemeToggle>
@@ -147,7 +164,7 @@
 		<h1 class="text-center text-2xl font-500 dark:text-white">Knight Tour Game</h1>
 		<button
 			class="i-material-symbols-help-outline-rounded text-2xl dark:text-gray-300"
-			on:click={() => (showGuide = true)}
+			on:click={() => openModal("Guide")}
 		></button>
 	</div>
 	<main class="flex-1">
@@ -170,13 +187,13 @@
 				{/each}
 			</div>
 			<div class="flex flex-col gap-3 place-items-center justify-center pbs-3 grid-">
-				<div><Button xl on:click={() => (showHighscoresModal = true)}>Highscores</Button></div>
+				<div><Button xl on:click={() => openModal("Highscores")}>Highscores</Button></div>
 				<div>
-					<Button xl on:click={() => (showChallengeModal = true)}>Challenges</Button>
+					<Button xl on:click={() => openModal("Challenges")}>Challenges</Button>
 				</div>
 				<div><Button xl on:click={changeSettings}>New Game (Change Settings)</Button></div>
 				<div><Button xl on:click={restart}>New Game (Same Settings)</Button></div>
-				<div><Button xl on:click={() => (showSolverModal = true)}>Open Solver</Button></div>
+				<div><Button xl on:click={() => openModal("Solver")}>Open Solver</Button></div>
 				<div><Button xl on:click={undo}>Undo</Button></div>
 			</div>
 		</div>
@@ -210,20 +227,39 @@
 <Modal bind:showModal={showModalTrapped}>
 	<h2 class="text-4xl">You don't have any moves available!</h2>
 </Modal>
-<Settings bind:dimensions bind:moves bind:showModal={showModalSettings}></Settings>
-<Highscores bind:showModal={showHighscoresModal}></Highscores>
-<Challenges bind:showModal={showChallengeModal}></Challenges>
-<Solver
-	bind:showModal={showSolverModal}
-	{dimensions}
-	{moves}
-	bind:grid
-	bind:lastTile
-	bind:counter
-	bind:solverUsed
-	bind:freezeGrid
-></Solver>
-<Guide bind:showModal={showGuide}></Guide>
+{#await components.Settings then Settings}
+	<svelte:component this={Settings} bind:dimensions bind:moves bind:showModal={show.Settings}
+	></svelte:component>
+{/await}
+
+{#await components.Highscores then Highscores}<svelte:component
+		this={Highscores}
+		bind:showModal={show.Highscores}
+	></svelte:component>
+{/await}
+
+{#await components.Challenges then Challenges}<svelte:component
+		this={Challenges}
+		bind:showModal={show.Challenges}
+	></svelte:component>
+{/await}
+
+{#await components.Solver then Solver}<svelte:component
+		this={Solver}
+		bind:showModal={show.Solver}
+		{dimensions}
+		{moves}
+		bind:grid
+		bind:lastTile
+		bind:counter
+		bind:solverUsed
+		bind:freezeGrid
+	></svelte:component>
+{/await}
+
+{#await components.Guide then Guide}<svelte:component this={Guide} bind:showModal={show.Guide}
+	></svelte:component>
+{/await}
 
 <style>
 	#confetti-canvas {
