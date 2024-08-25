@@ -2,6 +2,7 @@
 
 This is game based on the [Knight's Tour Problem](https://en.wikipedia.org/wiki/Knight%27s_tour). You have a board and your goal is to fill it by moving like a knight (in chess) to squares that are not filled
 
+Play here: https://knight-tour-game.pages.dev/
 ## Features
 
 - Your current square is colored blue and the squares that you can move to are colored green
