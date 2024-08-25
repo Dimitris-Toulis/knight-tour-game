@@ -73,7 +73,7 @@
 	<h3 class="text-2xl text-center" slot="header">Solver</h3>
 	<p>
 		This solver uses the Warnsdorf's rule to quickly find a solution (if possible) to the current
-		grid
+		board
 	</p>
 	<p>This will not count towards challenges or highscores</p>
 	<div class="flex gap-2">
