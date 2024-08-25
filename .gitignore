@@ -2,6 +2,7 @@ node_modules
 
 # Output
 /dist
+/dev-dist
 
 # OS
 .DS_Store
