@@ -15,6 +15,7 @@
 	bind:this={dialog}
 	on:close={() => (showModal = false)}
 	on:click|self={() => dialog.close()}
+	class="rounded-md p-0 max-w-lg"
 >
 	<!-- svelte-ignore a11y-no-static-element-interactions -->
 	<div on:click|stopPropagation class="p-4 dark:bg-slate-7 dark:text-gray-100">
@@ -32,14 +33,11 @@
 </dialog>
 
 <style>
-	dialog {
-		max-width: 32em;
-		border-radius: 0.2em;
-		border: none;
-		padding: 0;
-	}
 	dialog::backdrop {
 		background: rgba(0, 0, 0, 0.3);
+	}
+	:global(body.dark) dialog::backdrop {
+		background: rgba(0, 0, 0, 0.4);
 	}
 	dialog[open] {
 		animation: zoom 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);

@@ -12,10 +12,10 @@
 		type="number"
 		name={id}
 		{id}
-		class="border-black border-1 p-2 rounded-md invalid:border-red-500 dark:border-gray-400 dark:bg-slate-6 dark:text-gray-100"
+		class="border-black border-1 p-2 rounded-md invalid:border-red-500 dark:border-gray-400 dark:bg-slate-6 dark:text-white"
 		required
 		{min}
-		{max}
+		max={max ?? 50}
 		step={1}
 		bind:value
 	/>

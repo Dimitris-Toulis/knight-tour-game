@@ -140,7 +140,7 @@
 </script>
 
 <ThemeToggle></ThemeToggle>
-<div class="px-3 py-5 min-h-[100dvh] flex flex-col gap-7 dark:bg-slate-800 dark:text-gray-100">
+<div class="px-3 py-5 min-h-[100dvh] flex flex-col gap-7 dark:bg-slate-900 dark:text-gray-100">
 	<div class="flex justify-center place-items-center gap-2">
 		<h1 class="text-center text-2xl font-500 dark:text-white">Knight Tour Game</h1>
 		<button
@@ -152,7 +152,7 @@
 		<div class="flex gap-5 <lg:flex-col justify-evenly" class:flex-col={dimensions.x > 15}>
 			<div
 				id="main-grid"
-				class="grid border-4 border-black lg:max-w-[min(80dvh,80dvw)] flex-1 dark:border-gray-200 dark:border-3"
+				class="grid border-4 border-black lg:max-w-[min(80dvh,80dvw)] flex-1 dark:border-gray-100 dark:border-3"
 				class:!max-w-full={dimensions.x > 15}
 				style="--dimensionX: {dimensions.x}; --max-digits: {Math.ceil(
 					Math.log10(dimensions.x * dimensions.y)

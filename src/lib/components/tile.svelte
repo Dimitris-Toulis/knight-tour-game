@@ -6,7 +6,7 @@
 
 <button
 	on:click
-	class="aspect-ratio-square border-black border-1 flex place-items-center justify-center font-400 dark:border-gray-300"
+	class="aspect-ratio-square border-black border-1 flex place-items-center justify-center font-400 dark:border-gray-200"
 	class:bg-blue-600={selected}
 	class:bg-green-600={candidate}
 	class:text-white={selected || candidate}
