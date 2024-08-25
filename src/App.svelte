@@ -189,7 +189,9 @@
 					></Tile>
 				{/each}
 			</div>
-			<div class="flex flex-col gap-3 place-items-center justify-center pbs-3 grid-">
+			<div
+				class="flex lg:flex-col flex-row flex-wrap gap-3 place-items-center justify-center pbs-3"
+			>
 				<div><Button xl on:click={() => openModal("Highscores")}>Highscores</Button></div>
 				<div>
 					<Button xl on:click={() => openModal("Challenges")}>Challenges</Button>
