@@ -161,7 +161,7 @@
 <ThemeToggle></ThemeToggle>
 <div class="px-3 py-5 min-h-[100dvh] flex flex-col gap-7 dark:bg-slate-900 dark:text-gray-100">
 	<div class="flex justify-center place-items-center gap-2">
-		<h1 class="text-center text-2xl font-500 dark:text-white">Knight Tour Game</h1>
+		<h1 class="text-center text-2xl font-500 dark:text-white">Knight's tour game</h1>
 		<button
 			class="i-material-symbols-help-outline-rounded text-2xl dark:text-gray-300"
 			on:click={() => openModal("Guide")}
