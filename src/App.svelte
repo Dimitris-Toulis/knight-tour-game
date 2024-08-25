@@ -21,18 +21,7 @@
 
 	let counter = 1;
 	let lastTile = -1;
-	let availableTiles = [];
-	$: availableTiles =
-		lastTile == -1
-			? []
-			: moves
-					.map((m) => ({
-						x: tileC(lastTile, dimensions).x + m.x,
-						y: tileC(lastTile, dimensions).y + m.y
-					}))
-					.filter((tile) => grid[tileI(tile, dimensions)] == 0);
-	$: if (availableTiles.length == 0 && lastTile != -1 && counter != dimensions.x * dimensions.y + 1)
-		showModalTrapped = true;
+	let availableTiles;
 	function canGo(to: number) {
 		return canMove(tileC(lastTile, dimensions), tileC(to, dimensions), moves);
 	}
@@ -45,7 +34,29 @@
 			counter++;
 			lastTile = index;
 			if (counter == dimensions.x * dimensions.y + 1) win();
-			newScore(structuredClone(dimensions), structuredClone(moves), structuredClone(counter - 1));
+			if (!solverUsed) {
+				newScore(structuredClone(dimensions), structuredClone(moves), structuredClone(counter - 1));
+			}
+			availableTiles = moves
+				.map((m) => ({
+					x: tileC(lastTile, dimensions).x + m.x,
+					y: tileC(lastTile, dimensions).y + m.y
+				}))
+				.filter(
+					(tile) =>
+						grid[tileI(tile, dimensions)] == 0 &&
+						tile.x > 0 &&
+						tile.x < dimensions.x &&
+						tile.y > 0 &&
+						tile.y < dimensions.y
+				);
+			if (
+				availableTiles.length == 0 &&
+				lastTile != -1 &&
+				counter != dimensions.x * dimensions.y + 1
+			) {
+				showModalTrapped = true;
+			}
 		}
 	}
 	const show = {
@@ -73,7 +84,6 @@
 	let showModalWin = false;
 	let canvasConfetti: confetti.CreateTypes | undefined = undefined;
 	onMount(async () => {
-		console.log((await components.Guide!).default);
 		const canvas = document.getElementById("confetti-canvas") as HTMLCanvasElement;
 		canvas.width = window.innerWidth;
 		canvas.height = window.innerHeight;
@@ -141,6 +151,7 @@
 	}
 
 	function undo() {
+		if (freezeGrid) return;
 		if (lastTile == -1) return;
 		grid[lastTile] = 0;
 		lastTile = counter - 2 == 0 ? -1 : grid.indexOf(counter - 2);

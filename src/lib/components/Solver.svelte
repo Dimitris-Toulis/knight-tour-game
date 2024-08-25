@@ -37,12 +37,19 @@
 			lastTile
 		);
 		if (solution) {
+			solverUsed = true;
 			if (slowmo) {
 				showModal = false;
 				freezeGrid = true;
 				for (let i = counter; i <= dimensions.x * dimensions.y; i++) {
 					if (!slowmo) {
 						grid = Array.from(solution);
+						lastTile = grid.indexOf(dimensions.x * dimensions.y);
+						counter = dimensions.x * dimensions.y + 1;
+						break;
+					}
+					// check if restarted
+					if (i > 1 && lastTile == -1) {
 						break;
 					}
 					const next = solution.indexOf(i);
@@ -54,10 +61,9 @@
 				freezeGrid = false;
 			} else {
 				grid = Array.from(solution);
+				lastTile = grid.indexOf(dimensions.x * dimensions.y);
+				counter = dimensions.x * dimensions.y + 1;
 			}
-			lastTile = grid.indexOf(dimensions.x * dimensions.y);
-			counter = dimensions.x * dimensions.y + 1;
-			solverUsed = true;
 		} else alert("No solution!");
 		showModal = false;
 	}
