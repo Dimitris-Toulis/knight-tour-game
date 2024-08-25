@@ -165,6 +165,7 @@
 		<button
 			class="i-material-symbols-help-outline-rounded text-2xl dark:text-gray-300"
 			on:click={() => openModal("Guide")}
+			aria-label="Open Guide"
 		></button>
 	</div>
 	<main class="flex-1">
@@ -180,6 +181,8 @@
 				{#each grid as n, index (index)}
 					<Tile
 						num={n}
+						x={tileC(index, dimensions).x}
+						y={tileC(index, dimensions).y}
 						on:click={() => gridClick(index)}
 						selected={lastTile == index}
 						candidate={lastTile != -1 && grid[index] == 0 && canGo(index) && !freezeGrid}

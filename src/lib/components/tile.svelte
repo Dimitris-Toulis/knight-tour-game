@@ -1,7 +1,9 @@
-<script>
-	export let num;
+<script lang="ts">
+	export let num: number;
 	export let selected = false;
 	export let candidate = true;
+	export let x: number;
+	export let y: number;
 </script>
 
 <button
@@ -10,6 +12,8 @@
 	class:bg-blue-600={selected}
 	class:bg-green-600={candidate}
 	class:text-white={selected || candidate}
+	aria-label="{x},{y}"
+	tabindex={candidate ? 0 : -1}
 >
 	<span>{num == 0 ? "" : num}</span>
 </button>
