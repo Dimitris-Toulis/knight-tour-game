@@ -1,6 +1,6 @@
 <script lang="ts">
 	import Modal from "./Modal.svelte";
-	import { challengeStore } from "$lib/challenges";
+	import { challengeStore } from "../challenges";
 	import Challenge from "./Challenge.svelte";
 
 	export let showModal = false;

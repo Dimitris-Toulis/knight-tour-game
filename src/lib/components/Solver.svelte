@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { Point } from "$lib/helpers";
+	import type { Point } from "../helpers";
 	import Modal from "./Modal.svelte";
 	import Button from "./Button.svelte";
 
@@ -23,7 +23,7 @@
 	) => Promise<Int32Array | undefined> | Promise<Uint32Array | undefined>;
 	async function initialize() {
 		if (initialized) return _solve;
-		const { initialize: init, solve } = await import("$lib/solver");
+		const { initialize: init, solve } = await import("../solver");
 		await init();
 		initialized = true;
 		return (_solve = solve);

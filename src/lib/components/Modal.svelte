@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Button from "$lib/components/Button.svelte";
+	import Button from "./Button.svelte";
 	export let showModal: boolean;
 	export let closeBtn: string = "";
 	export let hasHeader: boolean = false;

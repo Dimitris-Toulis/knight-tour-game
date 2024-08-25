@@ -1,8 +1,8 @@
 <script lang="ts">
 	import Modal from "./Modal.svelte";
-	import { scoreStore } from "$lib/highscores";
-	import { presets } from "$lib/presets";
-	import { deepEqual } from "$lib/helpers";
+	import { scoreStore } from "../highscores";
+	import { presets } from "../presets";
+	import { deepEqual } from "../helpers";
 	import Button from "./Button.svelte";
 
 	let namedHighscores: Map<string, number>;

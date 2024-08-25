@@ -1,20 +1,20 @@
 <script lang="ts">
-	import Button from "$lib/components/Button.svelte";
-	import Tile from "$lib/components/tile.svelte";
-	import Modal from "$lib/components/Modal.svelte";
-	import Settings from "$lib/components/Settings.svelte";
-	import Highscores from "$lib/components/Highscores.svelte";
-	import Challenges from "$lib/components/Challenges.svelte";
-	import Solver from "$lib/components/Solver.svelte";
+	import Button from "./lib/components/Button.svelte";
+	import Tile from "./lib/components/tile.svelte";
+	import Modal from "./lib/components/Modal.svelte";
+	import Settings from "./lib/components/Settings.svelte";
+	import Highscores from "./lib/components/Highscores.svelte";
+	import Challenges from "./lib/components/Challenges.svelte";
+	import Solver from "./lib/components/Solver.svelte";
 
-	import { canMove, tileC, tileI } from "$lib/helpers";
-	import { newScore } from "$lib/highscores";
-	import { presets } from "$lib/presets";
+	import { canMove, tileC, tileI } from "./lib/helpers";
+	import { newScore } from "./lib/highscores";
+	import { presets } from "./lib/presets";
 	import * as confetti from "canvas-confetti";
 	import { onMount } from "svelte";
-	import { checkChallenges, type challengesType } from "$lib/challenges";
-	import ThemeToggle from "$lib/components/ThemeToggle.svelte";
-	import Guide from "$lib/components/Guide.svelte";
+	import { checkChallenges, type challengesType } from "./lib/challenges";
+	import ThemeToggle from "./lib/components/ThemeToggle.svelte";
+	import Guide from "./lib/components/Guide.svelte";
 
 	let dimensions = structuredClone(presets.Knight.dimensions);
 	let moves = structuredClone(presets.Knight.moves);

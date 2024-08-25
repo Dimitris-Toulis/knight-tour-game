@@ -1,6 +1,6 @@
 import { writable, type Writable } from "svelte/store";
 import type { Point } from "./helpers";
-import { deepEqual } from "$lib/helpers";
+import { deepEqual } from "./helpers";
 
 const storedScores = JSON.parse(localStorage.getItem("highscores") ?? "[]");
 
