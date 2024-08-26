@@ -17,7 +17,7 @@
 	on:click={changeMode}
 	aria-label="Change Theme"
 >
-	<div class="i-material-symbols-mode-night-outline text-black" class:hidden={mode == "dark"}></div>
+	<div class="i-material-symbols-mode-night text-yellow-500" class:hidden={mode == "dark"}></div>
 	<div
 		class="i-material-symbols-light-mode-outline text-yellow-500"
 		class:hidden={mode == "light"}
