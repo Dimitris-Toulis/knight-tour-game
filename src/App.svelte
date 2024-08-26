@@ -45,9 +45,9 @@
 				.filter(
 					(tile) =>
 						grid[tileI(tile, dimensions)] == 0 &&
-						tile.x > 0 &&
+						tile.x >= 0 &&
 						tile.x < dimensions.x &&
-						tile.y > 0 &&
+						tile.y >= 0 &&
 						tile.y < dimensions.y
 				);
 			if (
