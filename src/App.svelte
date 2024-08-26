@@ -156,6 +156,7 @@
 		grid[lastTile] = 0;
 		lastTile = counter - 2 == 0 ? -1 : grid.indexOf(counter - 2);
 		counter--;
+		if (lastTile == -1) restart();
 	}
 
 	function changeSettings() {
@@ -241,7 +242,7 @@
 	<canvas id="confetti-canvas"></canvas>
 </Modal>
 <Modal bind:showModal={showModalTrapped}>
-	<h2 class="text-4xl">You don't have any moves available!</h2>
+	<h2 class="text-4xl text-center">You don't have any moves available!</h2>
 </Modal>
 {#await components.Settings then Settings}
 	<svelte:component this={Settings} bind:dimensions bind:moves bind:showModal={show.Settings}
@@ -291,10 +292,6 @@
 	}
 	#main-grid {
 		grid-template-columns: repeat(var(--dimensionX), minmax(0, 1fr));
-		font-size: clamp(
-			calc(1rem / var(--max-digits)),
-			calc(1.5 * (0.7283rem + 1.8898vw) / var(--max-digits)),
-			calc(2.5rem / var(--max-digits))
-		);
+		font-size: calc(clamp(1rem, 0.625rem + 2vw, 2.5rem) / var(--max-digits));
 	}
 </style>
