@@ -6,7 +6,11 @@
 
 	let dialog: HTMLDialogElement;
 
-	$: if (dialog && showModal) dialog.showModal();
+	$: if (dialog && showModal) {
+		dialog.showModal();
+		dialog.focus();
+		dialog.blur();
+	}
 	$: if (dialog && !showModal) dialog.close();
 </script>
 
@@ -26,7 +30,7 @@
 		<slot />
 		{#if closeBtn != ""}
 			<div class="flex justify-center">
-				<Button autofocus on:click={() => dialog.close()}>{closeBtn}</Button>
+				<Button on:click={() => dialog.close()}>{closeBtn}</Button>
 			</div>
 		{/if}
 	</div>
