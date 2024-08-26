@@ -8,9 +8,9 @@
 
 <button
 	on:click
-	class="aspect-ratio-square border-black border-b-1 border-r-1 flex place-items-center justify-center font-400 dark:border-gray-200 overflow-y-hidden"
-	class:bg-blue-600={selected}
-	class:bg-green-600={candidate}
+	class="aspect-ratio-square flex place-items-center justify-center font-400 overflow-y-hidden bg-white dark:bg-slate-900"
+	class:!bg-blue-600={selected}
+	class:!bg-green-600={candidate}
 	class:text-white={selected || candidate}
 	aria-label="{x},{y}"
 	tabindex={candidate ? 0 : -1}

@@ -184,7 +184,7 @@
 		<div class="flex gap-5 <lg:flex-col justify-evenly" class:flex-col={dimensions.x > 15}>
 			<div
 				id="main-grid"
-				class="grid border-4 border-black lg:max-w-[min(80dvh,80dvw)] flex-1 dark:border-gray-100 dark:border-3"
+				class="flex-1 grid lg:max-w-[min(80dvh,80dvw)] gap-[1px] bg-black dark:bg-gray-200 border-black dark:border-gray-100 border-4 dark:border-3"
 				class:!max-w-full={dimensions.x > 15}
 				style="--dimensionX: {dimensions.x}; --max-digits: {Math.ceil(
 					Math.log10(dimensions.x * dimensions.y)
