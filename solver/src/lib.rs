@@ -1,24 +1,27 @@
 #[cfg(debug_assertions)]
 mod utils;
 
+use std::collections::VecDeque;
 use wasm_bindgen::prelude::*;
 
 #[wasm_bindgen]
 pub fn solve(
-    mut grid: Vec<i32>,
+    mut grid: Vec<usize>,
     last_tile_x: usize,
     last_tile_y: usize,
     dimension_x: usize,
     dimension_y: usize,
     moves_x: Vec<isize>,
     moves_y: Vec<isize>,
-) -> Option<Vec<i32>> {
+) -> Option<Vec<usize>> {
     #[cfg(debug_assertions)]
     utils::set_panic_hook();
-    let counter = grid[tile_i(last_tile_x, last_tile_y, (dimension_x, dimension_y))];
-    if solve_util(
+
+    let dimensions = (dimension_x, dimension_y);
+    let counter = grid[tile_i(last_tile_x, last_tile_y, &dimensions)];
+    if solve_util_iter(
         &mut grid,
-        (dimension_x, dimension_y),
+        dimensions,
         &moves_x
             .iter()
             .enumerate()
@@ -33,18 +36,18 @@ pub fn solve(
     }
 }
 
-fn in_bounds(x: isize, y: isize, dimensions: (usize, usize)) -> bool {
+fn in_bounds(x: isize, y: isize, dimensions: &(usize, usize)) -> bool {
     x >= 0 && y >= 0 && x < dimensions.0 as isize && y < dimensions.1 as isize
 }
 
-fn tile_i(x: usize, y: usize, dimensions: (usize, usize)) -> usize {
+fn tile_i(x: usize, y: usize, dimensions: &(usize, usize)) -> usize {
     x + y * dimensions.0
 }
 fn calc_next_tiles(
-    grid: &Vec<i32>,
-    dimensions: (usize, usize),
+    grid: &Vec<usize>,
+    dimensions: &(usize, usize),
     moves: &Vec<(isize, isize)>,
-    tile: (usize, usize),
+    tile: &(usize, usize),
 ) -> Vec<(usize, usize)> {
     let mut next_tiles: Vec<(usize, usize)> = vec![];
     for &(dx, dy) in moves {
@@ -59,30 +62,37 @@ fn calc_next_tiles(
     next_tiles
 }
 
-fn solve_util(
-    grid: &mut Vec<i32>,
+fn solve_util_iter(
+    grid: &mut Vec<usize>,
     dimensions: (usize, usize),
     moves: &Vec<(isize, isize)>,
-    last_tile: (usize, usize),
-    counter: i32,
+    first_tile: (usize, usize),
+    counter: usize,
 ) -> bool {
-    if counter == ((dimensions.0 * dimensions.1) as i32) {
-        return true;
-    }
-    let mut next_tiles: Vec<(usize, usize)> = calc_next_tiles(&grid, dimensions, moves, last_tile);
-    next_tiles.sort_by(|a, b| {
-        let ca = calc_next_tiles(grid, dimensions, moves, *a).len();
-        let cb = calc_next_tiles(grid, dimensions, moves, *b).len();
-        ca.cmp(&cb)
-    });
-    for (x, y) in next_tiles {
-        grid[tile_i(x, y, dimensions)] = counter + 1;
+    let mut stack = VecDeque::from([(first_tile, false)]);
+    let mut counter = counter;
 
-        let sol = solve_util(grid, dimensions, &moves, (x, y), counter + 1);
-        if !sol {
-            grid[tile_i(x, y, dimensions)] = 0;
-        } else {
+    while let Some((last_tile, delete)) = stack.pop_front() {
+        if delete {
+            grid[tile_i(last_tile.0, last_tile.1, &dimensions)] = 0;
+            continue;
+        }
+        grid[tile_i(last_tile.0, last_tile.1, &dimensions)] = counter;
+        counter += 1;
+        if counter == (dimensions.0 * dimensions.1 + 1) {
             return true;
+        }
+
+        let mut next_tiles: Vec<(usize, usize)> =
+            calc_next_tiles(&grid, &dimensions, moves, &last_tile);
+        next_tiles.sort_by(|a, b| {
+            let ca = calc_next_tiles(grid, &dimensions, moves, a).len();
+            let cb = calc_next_tiles(grid, &dimensions, moves, b).len();
+            cb.cmp(&ca)
+        });
+        stack.push_front((last_tile, true));
+        for (x, y) in next_tiles {
+            stack.push_front(((x, y), false));
         }
     }
 
