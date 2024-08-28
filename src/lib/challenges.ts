@@ -1,4 +1,5 @@
 import { writable, type Writable } from "svelte/store";
+import { get, set } from "idb-keyval";
 import { canMove, type Point } from "./helpers";
 
 function checkMagic(grid: number[][], dimensions: Point) {
@@ -90,9 +91,7 @@ export type challengesType = {
 	bisectedV: boolean;
 	quadrisected: boolean;
 };
-const storedChallenges: challengesType = JSON.parse(
-	localStorage.getItem("challenges") ?? "null"
-) ?? {
+const storedChallenges: challengesType = (await get("challenges")) ?? {
 	magic: false,
 	semimagic: false,
 	closed: false,
@@ -102,7 +101,7 @@ const storedChallenges: challengesType = JSON.parse(
 };
 
 export const challengeStore: Writable<challengesType> = writable(storedChallenges);
-challengeStore.subscribe((value) => localStorage.setItem("challenges", JSON.stringify(value)));
+challengeStore.subscribe(async (value) => await set("challenges", value));
 
 export function checkChallenges(
 	grid: number[][],

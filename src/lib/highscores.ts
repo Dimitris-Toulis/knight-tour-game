@@ -1,13 +1,14 @@
 import { writable, type Writable } from "svelte/store";
 import type { Point } from "./helpers";
 import { deepEqual } from "./helpers";
+import { get, set } from "idb-keyval";
 
-const storedScores = JSON.parse(localStorage.getItem("highscores") ?? "[]");
+const storedScores = (await get("highscores")) ?? [];
 
 export const scoreStore: Writable<
 	{ settings: { moves: Point[]; dimensions: Point }; score: number }[]
 > = writable(storedScores);
-scoreStore.subscribe((value) => localStorage.setItem("highscores", JSON.stringify(value)));
+scoreStore.subscribe(async (value) => await set("highscores", value));
 
 export function newScore(dimensions: Point, moves: Point[], score: number) {
 	const settings = { dimensions, moves };
