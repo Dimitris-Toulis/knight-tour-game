@@ -3,6 +3,8 @@ import UnoCSS from "unocss/vite";
 import extractorSvelte from "@unocss/extractor-svelte";
 import { defineConfig, searchForWorkspaceRoot } from "vite";
 import { VitePWA } from "vite-plugin-pwa";
+import topLevelAwait from "vite-plugin-top-level-await";
+import { readFile } from "node:fs/promises";
 
 export default defineConfig({
 	plugins: [
@@ -15,40 +17,45 @@ export default defineConfig({
 			devOptions: {
 				enabled: true
 			},
-			manifest: {
-				name: "Knight's tour game",
-				short_name: "Knight's Tour",
-				description: "A game where you try to fill a board with configurable dimensions and moves",
-				theme_color: "#1D4ED8",
-				background_color: "#0F172A",
-				icons: [
-					{
-						src: "icon.svg",
-						sizes: "any",
-						type: "image/svg+xml",
-						purpose: "any"
-					},
-					{
-						src: "maskable_icon_x512.png",
-						sizes: "512x512",
-						type: "image/png",
-						purpose: "maskable"
-					}
-				],
-				screenshots: [
-					{ form_factor: "wide", src: "/screenshots/wide_dark.jpg", sizes: "3658x2028" },
-					{ form_factor: "wide", src: "/screenshots/wide_light.jpg", sizes: "3658x2028" },
-					{ form_factor: "wide", src: "/screenshots/wide_settings.jpg", sizes: "3658x2028" },
-					{ form_factor: "narrow", src: "/screenshots/narrow_dark.jpg", sizes: "1240x2028" },
-					{ form_factor: "narrow", src: "/screenshots/narrow_light.jpg", sizes: "1240x2028" },
-					{ form_factor: "narrow", src: "/screenshots/narrow_settings.jpg", sizes: "1240x2028" }
-				]
-			},
+			manifest: false,
 			workbox: {
 				globPatterns: ["**/*.{js,css,html,wasm,svg}"]
 			}
-		})
+		}),
+		topLevelAwait(),
+		{
+			name: "vite-plugin-webmanifest-assets",
+			async generateBundle(options, bundle) {
+				const manifest = JSON.parse(
+					new TextDecoder().decode(await readFile("./src/manifest.webmanifest"))
+				);
+				manifest.icons = manifest.icons.map((icon: { src: string }) => {
+					const transformedName = Object.entries(bundle)
+						.find((entry) => entry[1].name == icon.src)
+						?.at(0);
+					return transformedName ? { ...icon, src: "/" + transformedName } : icon;
+				});
+				manifest.screenshots = manifest.screenshots.map((icon: { src: string }) => {
+					const transformedName = Object.entries(bundle)
+						.find((entry) => entry[1].name == icon.src)
+						?.at(0);
+					return transformedName ? { ...icon, src: "/" + transformedName } : icon;
+				});
+				this.emitFile({
+					type: "asset",
+					fileName: "manifest.webmanifest",
+					source: JSON.stringify(manifest)
+				});
+			}
+		}
 	],
+	build: {
+		assetsInlineLimit(filePath, content) {
+			if (filePath.includes("/src/assets/pwa")) return false;
+			else if (content.byteLength < 4096) return true;
+			else return false;
+		}
+	},
 	server: {
 		fs: {
 			allow: [searchForWorkspaceRoot(process.cwd()), "./solver/pkg"]

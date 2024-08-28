@@ -1,0 +1,52 @@
+{
+	"name": "Knight's tour game",
+	"short_name": "Knight's Tour",
+	"description": "A game where you try to fill a board with configurable dimensions and moves",
+	"start_url": "/",
+	"lang": "en",
+	"scope": "/",
+	"display": "standalone",
+	"theme_color": "#1D4ED8",
+	"background_color": "#0F172A",
+	"categories": ["games"],
+	"icons": [
+		{
+			"src": "icon.svg",
+			"sizes": "any",
+			"type": "image/svg+xml",
+			"purpose": "any"
+		},
+		{
+			"src": "maskable_icon_x512.png",
+			"sizes": "512x512",
+			"type": "image/png",
+			"purpose": "maskable"
+		},
+		{
+			"src": "pwa-64x64.png",
+			"sizes": "64x64",
+			"type": "image/png",
+			"purpose": "any"
+		},
+		{
+			"src": "pwa-192x192.png",
+			"sizes": "192x192",
+			"type": "image/png",
+			"purpose": "any"
+		},
+		{
+			"src": "pwa-512x512.png",
+			"sizes": "512x512",
+			"type": "image/png",
+			"purpose": "any"
+		}
+	],
+	"screenshots": [
+		{ "form_factor": "wide", "src": "wide_dark.jpg", "sizes": "3658x2028" },
+		{ "form_factor": "wide", "src": "wide_light.jpg", "sizes": "3658x2028" },
+		{ "form_factor": "wide", "src": "wide_settings.jpg", "sizes": "3658x2028" },
+		{ "form_factor": "narrow", "src": "narrow_dark.jpg", "sizes": "1240x2028" },
+		{ "form_factor": "narrow", "src": "narrow_light.jpg", "sizes": "1240x2028" },
+		{ "form_factor": "narrow", "src": "narrow_settings.jpg", "sizes": "1240x2028" }
+	]
+}
