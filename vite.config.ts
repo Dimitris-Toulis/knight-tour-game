@@ -14,9 +14,6 @@ export default defineConfig({
 		}),
 		VitePWA({
 			registerType: "prompt",
-			devOptions: {
-				enabled: true
-			},
 			manifest: false,
 			workbox: {
 				globPatterns: ["**/*.{js,css,html,wasm,svg}"]
