@@ -1,6 +1,7 @@
 <script lang="ts">
 	export let name: string;
 	export let done: boolean;
+	export let description: string;
 </script>
 
 <div>
@@ -15,5 +16,6 @@
 		<h3 class="text-xl text-center">{name}</h3>
 	</div>
 	<hr />
-	<p><slot></slot></p>
+	<p>{description}</p>
+	<slot></slot>
 </div>
