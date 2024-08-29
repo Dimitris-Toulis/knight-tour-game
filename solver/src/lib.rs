@@ -75,6 +75,7 @@ fn solve_util_iter(
     while let Some((last_tile, delete)) = stack.pop_front() {
         if delete {
             grid[tile_i(last_tile.0, last_tile.1, &dimensions)] = 0;
+            counter -= 1;
             continue;
         }
         grid[tile_i(last_tile.0, last_tile.1, &dimensions)] = counter;

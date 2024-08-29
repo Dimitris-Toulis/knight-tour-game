@@ -73,6 +73,7 @@
 			} else {
 				status = 4;
 				error = "No solution possible!";
+				return;
 			}
 			showModal = false;
 			status = 0;
@@ -82,6 +83,7 @@
 			else error = JSON.stringify(e);
 		}
 	}
+	$: if (showModal) status = 0;
 </script>
 
 <Modal bind:showModal hasHeader>
