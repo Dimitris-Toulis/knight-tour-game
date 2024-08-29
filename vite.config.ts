@@ -26,17 +26,17 @@ export default defineConfig({
 			name: "vite-plugin-webmanifest-assets",
 			async generateBundle(options, bundle) {
 				const manifest = JSON.parse(
-					new TextDecoder().decode(await readFile("./src/manifest.webmanifest"))
+					new TextDecoder().decode(await readFile("./public/manifest.webmanifest"))
 				);
 				manifest.icons = manifest.icons.map((icon: { src: string }) => {
 					const transformedName = Object.entries(bundle)
-						.find((entry) => entry[1].name == icon.src)
+						.find((entry) => entry[1].name == icon.src.split("/").at(-1))
 						?.at(0);
 					return transformedName ? { ...icon, src: "/" + transformedName } : icon;
 				});
 				manifest.screenshots = manifest.screenshots.map((icon: { src: string }) => {
 					const transformedName = Object.entries(bundle)
-						.find((entry) => entry[1].name == icon.src)
+						.find((entry) => "src/assets/" + entry[1].name == icon.src.split("/").at(-1))
 						?.at(0);
 					return transformedName ? { ...icon, src: "/" + transformedName } : icon;
 				});
