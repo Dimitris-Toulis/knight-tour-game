@@ -33,7 +33,7 @@ export default defineConfig({
 				});
 				manifest.screenshots = manifest.screenshots.map((icon: { src: string }) => {
 					const transformedName = Object.entries(bundle)
-						.find((entry) => "src/assets/" + entry[1].name == icon.src.split("/").at(-1))
+						.find((entry) => entry[1].name == icon.src.split("/").at(-1))
 						?.at(0);
 					return transformedName ? { ...icon, src: "/" + transformedName } : icon;
 				});

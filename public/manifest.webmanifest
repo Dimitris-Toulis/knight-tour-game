@@ -42,11 +42,27 @@
 		}
 	],
 	"screenshots": [
-		{ "form_factor": "wide", "src": "wide_dark.jpg", "sizes": "3658x2028" },
-		{ "form_factor": "wide", "src": "wide_light.jpg", "sizes": "3658x2028" },
-		{ "form_factor": "wide", "src": "wide_settings.jpg", "sizes": "3658x2028" },
-		{ "form_factor": "narrow", "src": "narrow_dark.jpg", "sizes": "1240x2028" },
-		{ "form_factor": "narrow", "src": "narrow_light.jpg", "sizes": "1240x2028" },
-		{ "form_factor": "narrow", "src": "narrow_settings.jpg", "sizes": "1240x2028" }
+		{ "form_factor": "wide", "src": "src/assets/screenshots/wide_dark.jpg", "sizes": "3658x2028" },
+		{ "form_factor": "wide", "src": "src/assets/screenshots/wide_light.jpg", "sizes": "3658x2028" },
+		{
+			"form_factor": "wide",
+			"src": "src/assets/screenshots/wide_settings.jpg",
+			"sizes": "3658x2028"
+		},
+		{
+			"form_factor": "narrow",
+			"src": "src/assets/screenshots/narrow_dark.jpg",
+			"sizes": "1240x2028"
+		},
+		{
+			"form_factor": "narrow",
+			"src": "src/assets/screenshots/narrow_light.jpg",
+			"sizes": "1240x2028"
+		},
+		{
+			"form_factor": "narrow",
+			"src": "src/assets/screenshots/narrow_settings.jpg",
+			"sizes": "1240x2028"
+		}
 	]
 }
