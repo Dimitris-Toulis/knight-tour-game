@@ -7,11 +7,20 @@ export async function initialize() {
 }
 export async function solve(_grid: number[], dimensions: Point, _moves: Point[], lastTile: number) {
 	if (lastTile == -1) {
+		for (let i = 0; i < dimensions.x * dimensions.y; i++) {
+			const sol = solve_call(_grid, dimensions, _moves, i);
+			if (sol) return sol;
+		}
+	} else return solve_call(_grid, dimensions, _moves, lastTile);
+}
+
+async function solve_call(_grid: number[], dimensions: Point, _moves: Point[], lastTile: number) {
+	if (lastTile == -1) {
 		lastTile = 0;
 		_grid[0] = 1;
 	}
 	const lastTileC = tileC(lastTile, dimensions);
-	const grid = new Int32Array(_grid);
+	const grid = new Uint32Array(_grid);
 	const moves_x = new Int32Array(_moves.map((m) => m.x));
 	const moves_y = new Int32Array(_moves.map((m) => m.y));
 	const solution = wasmSolve(
