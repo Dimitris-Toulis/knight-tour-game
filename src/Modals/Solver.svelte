@@ -13,8 +13,8 @@
 	export let freezeGrid: boolean;
 
 	let slowmo = false;
-	let solving = false;
 	let error: string = "";
+	let status = 0;
 
 	let initialized = false;
 	let _solve: (
@@ -25,15 +25,16 @@
 	) => Promise<Int32Array | undefined> | Promise<Uint32Array | undefined>;
 	async function initialize() {
 		if (initialized) return _solve;
+		status = 1;
 		const { initialize: init, solve } = await import("@/lib/solver");
 		await init();
 		initialized = true;
 		return (_solve = solve);
 	}
 	async function solveClick() {
-		solving = true;
 		try {
 			const solve = await initialize();
+			status = 2;
 			const solution = await solve(
 				structuredClone(grid),
 				structuredClone(dimensions),
@@ -45,6 +46,7 @@
 				if (slowmo) {
 					showModal = false;
 					freezeGrid = true;
+					status = 3;
 					for (let i = counter; i <= dimensions.x * dimensions.y; i++) {
 						if (!slowmo) {
 							grid = Array.from(solution);
@@ -68,11 +70,14 @@
 					lastTile = grid.indexOf(dimensions.x * dimensions.y);
 					counter = dimensions.x * dimensions.y + 1;
 				}
-			} else alert("No solution!");
+			} else {
+				status = 4;
+				error = "No solution possible!";
+			}
 			showModal = false;
-			solving = false;
+			status = 0;
 		} catch (e) {
-			solving = false;
+			status = 4;
 			if (e instanceof Error) error = e.message;
 			else error = JSON.stringify(e);
 		}
@@ -90,14 +95,13 @@
 		<input type="checkbox" name="slowmo" id="slowmo" bind:checked={slowmo} />
 		<label for="slowmo">Reveal solution step-by-step</label>
 	</div>
-	<div class="flex justify-center place-items-center my-4" class:!hidden={!solving}>
+	<p class:hidden={status != 1}>Downloading solver...</p>
+	<div class="flex justify-center place-items-center my-4" class:!hidden={status != 2}>
 		<div
 			class="border-t-white border-r-white border-b-slate-7 border-l-slate-7 rounded-full aspect-ratio-square w-20 border-3 animate-spin"
 		></div>
 	</div>
-	{#if error != ""}
-		<p class="text-red-6">Error: {error}</p>
-	{/if}
+	<p class="text-red-6" class:hidden={status != 4}>Error: {error}</p>
 	<div class="flex justify-center my-3 gap-3">
 		<Button on:click={solveClick} slot="buttons">Solve!</Button>
 		<Button on:click={() => (showModal = false)} slot="buttons">Close</Button>
