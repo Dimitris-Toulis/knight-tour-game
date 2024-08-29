@@ -14,6 +14,7 @@
 	import { onMount } from "svelte";
 	import { checkChallenges, type challengesType } from "./lib/challenges";
 	import ThemeToggle from "./components/ThemeToggle.svelte";
+	import ReloadPrompt from "./components/ReloadPrompt.svelte";
 
 	let dimensions = structuredClone(presets.Knight.dimensions);
 	let moves = structuredClone(presets.Knight.moves);
@@ -171,6 +172,7 @@
 </script>
 
 <ThemeToggle></ThemeToggle>
+<ReloadPrompt></ReloadPrompt>
 <div class="px-3 py-5 min-h-[100dvh] flex flex-col gap-7 dark:bg-slate-900 dark:text-gray-100">
 	<div class="flex justify-center place-items-center gap-2">
 		<h1 class="text-center text-2xl font-500 dark:text-white">Knight's tour game</h1>

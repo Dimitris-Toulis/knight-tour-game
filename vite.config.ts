@@ -13,7 +13,7 @@ export default defineConfig({
 			extractors: [extractorSvelte()]
 		}),
 		VitePWA({
-			registerType: "autoUpdate",
+			registerType: "prompt",
 			devOptions: {
 				enabled: true
 			},
