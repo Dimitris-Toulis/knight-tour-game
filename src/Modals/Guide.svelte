@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Modal from "./Modal.svelte";
+	import Modal from "@/components/Modal.svelte";
 
 	export let showModal: boolean = false;
 </script>

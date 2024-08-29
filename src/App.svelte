@@ -1,19 +1,19 @@
 <script lang="ts">
-	import Button from "./lib/components/Button.svelte";
-	import Tile from "./lib/components/tile.svelte";
-	import Modal from "./lib/components/Modal.svelte";
-	import type TSettings from "./lib/components/Settings.svelte";
-	import type THighscores from "./lib/components/Highscores.svelte";
-	import type TChallenges from "./lib/components/Challenges.svelte";
-	import type TSolver from "./lib/components/Solver.svelte";
-	import type TGuide from "./lib/components/Guide.svelte";
+	import Button from "./components/Button.svelte";
+	import Tile from "./components/tile.svelte";
+	import Modal from "./components/Modal.svelte";
+	import type TSettings from "@/Modals/Settings.svelte";
+	import type THighscores from "@/Modals/Highscores.svelte";
+	import type TChallenges from "./Modals/Challenges.svelte";
+	import type TSolver from "@/Modals/Solver.svelte";
+	import type TGuide from "@/Modals/Guide.svelte";
 
 	import { canMove, tileC, tileI } from "./lib/helpers";
 	import { newScore } from "./lib/highscores";
 	import { presets } from "./lib/presets";
 	import { onMount } from "svelte";
 	import { checkChallenges, type challengesType } from "./lib/challenges";
-	import ThemeToggle from "./lib/components/ThemeToggle.svelte";
+	import ThemeToggle from "./components/ThemeToggle.svelte";
 
 	let dimensions = structuredClone(presets.Knight.dimensions);
 	let moves = structuredClone(presets.Knight.moves);
@@ -75,7 +75,7 @@
 	} = Object.fromEntries(
 		Object.entries(show).map(([c, _]) => [
 			c,
-			(async () => (await import(`./lib/components/${c}.svelte`)).default)()
+			(async () => (await import(`@/Modals/${c}.svelte`)).default)()
 		])
 	);
 

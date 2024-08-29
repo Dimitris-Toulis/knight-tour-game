@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { Point } from "../helpers";
+	import type { Point } from "@/lib/helpers";
 	import Button from "./Button.svelte";
 	import SettingsInput from "./SettingsInput.svelte";
 	export let moves: Point[];

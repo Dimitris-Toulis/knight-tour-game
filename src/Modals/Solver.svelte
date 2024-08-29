@@ -1,7 +1,7 @@
 <script lang="ts">
-	import type { Point } from "../helpers";
-	import Modal from "./Modal.svelte";
-	import Button from "./Button.svelte";
+	import type { Point } from "@/lib/helpers";
+	import Modal from "@/components/Modal.svelte";
+	import Button from "@/components/Button.svelte";
 
 	export let grid: number[];
 	export let moves: Point[];
@@ -25,7 +25,7 @@
 	) => Promise<Int32Array | undefined> | Promise<Uint32Array | undefined>;
 	async function initialize() {
 		if (initialized) return _solve;
-		const { initialize: init, solve } = await import("../solver");
+		const { initialize: init, solve } = await import("@/lib/solver");
 		await init();
 		initialized = true;
 		return (_solve = solve);

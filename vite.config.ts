@@ -5,6 +5,7 @@ import { defineConfig, searchForWorkspaceRoot } from "vite";
 import { VitePWA } from "vite-plugin-pwa";
 import topLevelAwait from "vite-plugin-top-level-await";
 import { readFile } from "node:fs/promises";
+import path from "path";
 
 export default defineConfig({
 	plugins: [
@@ -59,6 +60,11 @@ export default defineConfig({
 	server: {
 		fs: {
 			allow: [searchForWorkspaceRoot(process.cwd()), "./solver/pkg"]
+		}
+	},
+	resolve: {
+		alias: {
+			"@": path.resolve(__dirname, "./src")
 		}
 	}
 });

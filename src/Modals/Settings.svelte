@@ -1,10 +1,10 @@
 <script lang="ts">
-	import SettingsInput from "./SettingsInput.svelte";
-	import SettingsMoves from "./SettingsMoves.svelte";
-	import Button from "./Button.svelte";
-	import Modal from "./Modal.svelte";
-	import { presets } from "../presets";
-	import type { Point } from "../helpers";
+	import SettingsInput from "@/components/SettingsInput.svelte";
+	import SettingsMoves from "@/components/SettingsMoves.svelte";
+	import Button from "@/components/Button.svelte";
+	import Modal from "@/components/Modal.svelte";
+	import { presets } from "@/lib/presets";
+	import type { Point } from "@/lib/helpers";
 
 	export let showModal = false;
 	export let dimensions: Point;
