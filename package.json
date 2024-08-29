@@ -31,7 +31,6 @@
 	},
 	"type": "module",
 	"dependencies": {
-		"canvas-confetti": "^1.9.3",
-		"idb-keyval": "^6.2.1"
+		"canvas-confetti": "^1.9.3"
 	}
 }

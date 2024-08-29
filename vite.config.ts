@@ -3,7 +3,6 @@ import UnoCSS from "unocss/vite";
 import extractorSvelte from "@unocss/extractor-svelte";
 import { defineConfig, searchForWorkspaceRoot } from "vite";
 import { VitePWA } from "vite-plugin-pwa";
-import topLevelAwait from "vite-plugin-top-level-await";
 import { readFile } from "node:fs/promises";
 import path from "path";
 
@@ -23,7 +22,6 @@ export default defineConfig({
 				globPatterns: ["**/*.{js,css,html,wasm,svg}"]
 			}
 		}),
-		topLevelAwait(),
 		{
 			name: "vite-plugin-webmanifest-assets",
 			async generateBundle(options, bundle) {
