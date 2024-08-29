@@ -4,6 +4,7 @@
 	"private": true,
 	"scripts": {
 		"dev": "vite dev",
+		"build-vite": "vite build",
 		"build": "npm run wasm && vite build",
 		"wasm": "wasm-pack build ./solver --target web",
 		"preview": "vite preview",
