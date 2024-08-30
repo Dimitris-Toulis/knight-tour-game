@@ -15,6 +15,7 @@
 	let slowmo = false;
 	let error: string = "";
 	let status = 0;
+	let tooLongTimeout: number | null;
 
 	let initialized = false;
 	let _solve: (
@@ -35,6 +36,9 @@
 		try {
 			const solve = await initialize();
 			status = 2;
+			tooLongTimeout = setTimeout(() => {
+				status = 5;
+			}, 1000 * 30) as unknown as number;
 			const solution = await solve(
 				structuredClone(grid),
 				structuredClone(dimensions),
@@ -82,6 +86,7 @@
 			if (e instanceof Error) error = e.message;
 			else error = JSON.stringify(e);
 		}
+		if (tooLongTimeout) clearTimeout(tooLongTimeout);
 	}
 	$: if (showModal) status = 0;
 </script>
@@ -98,12 +103,18 @@
 		<label for="slowmo">Reveal solution step-by-step</label>
 	</div>
 	<p class:hidden={status != 1}>Downloading solver...</p>
-	<div class="flex justify-center place-items-center my-4" class:!hidden={status != 2}>
+	<div
+		class="flex justify-center place-items-center my-4"
+		class:!hidden={status != 2 && status != 5}
+	>
 		<div
 			class="border-t-white border-r-white border-b-slate-7 border-l-slate-7 rounded-full aspect-ratio-square w-20 border-3 animate-spin"
 		></div>
 	</div>
-	<p class="text-red-6" class:hidden={status != 4}>Error: {error}</p>
+	<p class="font-500" class:hidden={status != 5}>
+		Solver running for too long. There might not be a solution
+	</p>
+	<p class="text-red-6 font-500" class:hidden={status != 4}>Error: {error}</p>
 	<div class="flex justify-center my-3 gap-3">
 		<Button on:click={solveClick} slot="buttons">Solve!</Button>
 		<Button on:click={() => (showModal = false)} slot="buttons">Close</Button>
