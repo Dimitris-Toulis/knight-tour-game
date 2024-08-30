@@ -25,18 +25,20 @@ export default defineConfig({
 				const manifest = JSON.parse(
 					new TextDecoder().decode(await readFile("./public/manifest.webmanifest"))
 				);
-				manifest.icons = manifest.icons.map((icon: { src: string }) => {
-					const transformedName = Object.entries(bundle)
-						.find((entry) => entry[1].name == icon.src.split("/").at(-1))
-						?.at(0);
-					return transformedName ? { ...icon, src: "/" + transformedName } : icon;
-				});
-				manifest.screenshots = manifest.screenshots.map((icon: { src: string }) => {
-					const transformedName = Object.entries(bundle)
-						.find((entry) => entry[1].name == icon.src.split("/").at(-1))
-						?.at(0);
-					return transformedName ? { ...icon, src: "/" + transformedName } : icon;
-				});
+				function mapIcons(icons: { src: string }[]) {
+					return icons.map((icon: { src: string }) => {
+						const transformedName = Object.entries(bundle)
+							.find((entry) => entry[1].name == icon.src.split("/").at(-1))
+							?.at(0);
+						return transformedName ? { ...icon, src: "/" + transformedName } : icon;
+					});
+				}
+				manifest.icons = mapIcons(manifest.icons);
+				manifest.screenshots = mapIcons(manifest.screenshots);
+				manifest.shortcuts = manifest.shortcuts.map((s: any) => ({
+					...s,
+					icons: mapIcons(s.icons)
+				}));
 				this.emitFile({
 					type: "asset",
 					fileName: "manifest.webmanifest",
@@ -48,6 +50,7 @@ export default defineConfig({
 	build: {
 		assetsInlineLimit(filePath, content) {
 			if (filePath.includes("/src/assets/pwa")) return false;
+			else if (filePath.includes("/src/assets/screenshots")) return false;
 			else if (content.byteLength < 4096) return true;
 			else return false;
 		}

@@ -97,6 +97,13 @@
 			localStorage.setItem("visited", "true");
 			openModal("Guide");
 		}
+		const urlParams = new URLSearchParams(window.location.search);
+		const preset = urlParams.get("preset")?.replace("_", " ");
+		if (preset && Object.hasOwn(presets, preset)) {
+			dimensions = structuredClone(presets[preset as keyof typeof presets].dimensions);
+			moves = structuredClone(presets[preset as keyof typeof presets].moves);
+			grid = Array(dimensions.x * dimensions.y).fill(0);
+		}
 	});
 
 	let challenges: challengesType = {

@@ -64,5 +64,40 @@
 			"src": "src/assets/screenshots/narrow_settings.jpg",
 			"sizes": "1240x2028"
 		}
+	],
+	"shortcuts": [
+		{
+			"name": "8x8 Knight",
+			"url": "/?preset=Knight",
+			"icons": [
+				{
+					"src": "src/assets/screenshots/shortcut_knight.png",
+					"sizes": "96x96",
+					"type": "image/png"
+				}
+			]
+		},
+		{
+			"name": "10x10 Star",
+			"url": "/?preset=Star",
+			"icons": [
+				{
+					"src": "src/assets/screenshots/shortcut_star.png",
+					"sizes": "96x96",
+					"type": "image/png"
+				}
+			]
+		},
+		{
+			"name": "12x12 Long Knight",
+			"url": "/?preset=Long_Knight",
+			"icons": [
+				{
+					"src": "src/assets/screenshots/shortcut_long_knight.png",
+					"sizes": "96x96",
+					"type": "image/png"
+				}
+			]
+		}
 	]
 }

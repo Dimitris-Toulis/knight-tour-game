@@ -5,6 +5,7 @@ import App from "./App.svelte";
 
 // Include icons in bundle
 import.meta.glob("./assets/screenshots/*.jpg", { query: "?url" });
+import.meta.glob("./assets/screenshots/*.png", { query: "?url" });
 import.meta.glob("./assets/*.png", { query: "?url" });
 
 const app = new App({
