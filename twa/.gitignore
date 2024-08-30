@@ -1,4 +1,5 @@
 android.keystore
-app-*
-.gradle
-app/build
+*
+!.gitignore
+!twa-manifest.json
+!assetlinks.json
