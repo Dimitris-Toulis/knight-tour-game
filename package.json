@@ -22,7 +22,7 @@
 		"@unocss/preset-icons": "^0.62.2",
 		"prettier": "^3.1.1",
 		"prettier-plugin-svelte": "^3.1.2",
-		"svelte": "^4.2.7",
+		"svelte": "^4.2.19",
 		"svelte-check": "^3.6.0",
 		"typescript": "^5.0.0",
 		"unocss": "^0.62.2",
