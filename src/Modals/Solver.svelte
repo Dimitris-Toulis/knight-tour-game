@@ -88,10 +88,11 @@
 		}
 		if (tooLongTimeout) clearTimeout(tooLongTimeout);
 	}
-	$: if (showModal) {
+	function reset() {
 		status = 0;
 		if (tooLongTimeout) clearTimeout(tooLongTimeout);
 	}
+	$: if (showModal) reset();
 </script>
 
 <Modal bind:showModal hasHeader>
