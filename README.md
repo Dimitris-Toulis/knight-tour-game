@@ -20,7 +20,7 @@ Play here: https://knight-tour.toulis.net/
 
 ## To build it locally
 
-### Solver
+### **Solver**
 
 Requires:
 - Rust (install from https://www.rust-lang.org/tools/install)
@@ -29,7 +29,7 @@ Requires:
 To build the solver without the app run: `npm run wasm`.
 The WebAssembly file will be in `./solver/pkg/solver_bg.wasm` and the javascript glue code in `./solver/pkg/solver.js`
 
-### Web app
+### **Web app**
 
 Requires: solver requirements
 ```
@@ -39,7 +39,7 @@ $ npm run build
 
 To serve it run: `npm run preview`
 
-### Android App
+### **Android App**
 
 Requires: 
 - @bubblewrap/cli (`npm i -g @bubblewrap/cli`)
