@@ -45,7 +45,7 @@
 				structuredClone(moves),
 				lastTile
 			);
-			if (solution) {
+			if (solution && (status == 2 || status == 5)) {
 				solverUsed = true;
 				if (slowmo) {
 					showModal = false;
@@ -88,7 +88,10 @@
 		}
 		if (tooLongTimeout) clearTimeout(tooLongTimeout);
 	}
-	$: if (showModal) status = 0;
+	$: if (showModal) {
+		status = 0;
+		if (tooLongTimeout) clearTimeout(tooLongTimeout);
+	}
 </script>
 
 <Modal bind:showModal hasHeader>
