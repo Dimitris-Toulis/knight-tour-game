@@ -8,17 +8,15 @@ export async function initialize() {
 export async function solve(_grid: number[], dimensions: Point, _moves: Point[], lastTile: number) {
 	if (lastTile == -1) {
 		for (let i = 0; i < dimensions.x * dimensions.y; i++) {
-			const sol = solve_call(_grid, dimensions, _moves, i);
+			_grid[i] = 1;
+			const sol = await solve_call(_grid, dimensions, _moves, i);
 			if (sol) return sol;
+			_grid[i] = 0;
 		}
-	} else return solve_call(_grid, dimensions, _moves, lastTile);
+	} else return await solve_call(_grid, dimensions, _moves, lastTile);
 }
 
 async function solve_call(_grid: number[], dimensions: Point, _moves: Point[], lastTile: number) {
-	if (lastTile == -1) {
-		lastTile = 0;
-		_grid[0] = 1;
-	}
 	const lastTileC = tileC(lastTile, dimensions);
 	const grid = new Uint32Array(_grid);
 	const moves_x = new Int32Array(_moves.map((m) => m.x));

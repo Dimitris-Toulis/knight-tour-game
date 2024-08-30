@@ -22,7 +22,7 @@
 		dimensions: Point,
 		_moves: Point[],
 		lastTile: number
-	) => Promise<Int32Array | undefined> | Promise<Uint32Array | undefined>;
+	) => Promise<Uint32Array | undefined>;
 	async function initialize() {
 		if (initialized) return _solve;
 		status = 1;
