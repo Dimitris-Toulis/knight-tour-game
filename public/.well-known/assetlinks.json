@@ -1,0 +1,12 @@
+[
+	{
+		"relation": ["delegate_permission/common.handle_all_urls"],
+		"target": {
+			"namespace": "android_app",
+			"package_name": "net.toulis.knight_tour.twa",
+			"sha256_cert_fingerprints": [
+				"A0:88:07:60:81:FE:1E:6B:91:31:C0:B9:F4:B1:6B:BE:F1:96:4A:9C:56:41:3D:17:37:BC:C1:17:64:33:8E:4B"
+			]
+		}
+	}
+]

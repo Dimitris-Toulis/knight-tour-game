@@ -1,0 +1,67 @@
+{
+  "packageId": "net.toulis.knight_tour.twa",
+  "host": "knight-tour.toulis.net",
+  "name": "Knight's Tour",
+  "launcherName": "Knight Tour",
+  "display": "standalone",
+  "themeColor": "#1D4ED8",
+  "themeColorDark": "#000000",
+  "navigationColor": "#000000",
+  "navigationColorDark": "#000000",
+  "navigationDividerColor": "#000000",
+  "navigationDividerColorDark": "#000000",
+  "backgroundColor": "#0F172A",
+  "enableNotifications": true,
+  "startUrl": "/",
+  "iconUrl": "https://knight-tour.toulis.net/assets/maskable_icon_x512-DCHA-K8h.png",
+  "maskableIconUrl": "https://knight-tour.toulis.net/assets/maskable_icon_x512-DCHA-K8h.png",
+  "monochromeIconUrl": "https://knight-tour.toulis.net/assets/pwa-192x192-DW1uY7pE.png",
+  "splashScreenFadeOutDuration": 300,
+  "signingKey": {
+    "path": "/home/dimitris/Documents/Projects/knight-tour-game/twa/android.keystore",
+    "alias": "android"
+  },
+  "appVersionName": "1",
+  "appVersionCode": 1,
+  "shortcuts": [
+    {
+      "name": "8x8 Knight",
+      "shortName": "8x8 Knight",
+      "url": "https://knight-tour.toulis.net/?preset=Knight",
+      "chosenIconUrl": "https://knight-tour.toulis.net/assets/shortcut_knight-Bd-BLFoh.png"
+    },
+    {
+      "name": "10x10 Star",
+      "shortName": "10x10 Star",
+      "url": "https://knight-tour.toulis.net/?preset=Star",
+      "chosenIconUrl": "https://knight-tour.toulis.net/assets/shortcut_star-BY_0ciWO.png"
+    },
+    {
+      "name": "12x12 Long Knight",
+      "shortName": "12x12 Long K",
+      "url": "https://knight-tour.toulis.net/?preset=Long_Knight",
+      "chosenIconUrl": "https://knight-tour.toulis.net/assets/shortcut_long_knight-D3rFaoJ7.png"
+    }
+  ],
+  "generatorApp": "bubblewrap-cli",
+  "webManifestUrl": "https://knight-tour.toulis.net/manifest.webmanifest",
+  "fallbackType": "customtabs",
+  "features": {},
+  "alphaDependencies": {
+    "enabled": false
+  },
+  "enableSiteSettingsShortcut": true,
+  "isChromeOSOnly": false,
+  "isMetaQuest": false,
+  "fullScopeUrl": "https://knight-tour.toulis.net/",
+  "minSdkVersion": 19,
+  "orientation": "any",
+  "fingerprints": [
+    {
+      "value": "A0:88:07:60:81:FE:1E:6B:91:31:C0:B9:F4:B1:6B:BE:F1:96:4A:9C:56:41:3D:17:37:BC:C1:17:64:33:8E:4B"
+    }
+  ],
+  "additionalTrustedOrigins": [],
+  "retainedBundles": [],
+  "appVersion": "1"
+}
